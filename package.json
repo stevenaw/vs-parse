@@ -1,0 +1,38 @@
+{
+  "name": "vs-parser",
+  "version": "0.1.0",
+  "description": "A parser for Visual Studio solutions and projects",
+  "repository": "stevenaw/vs-parser",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "nyc mocha --timeout=3000",
+    "demo": "node samples/dependencyParsing",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags"
+  },
+  "tags": [
+    "visual studio",
+    "csproj",
+    "sln",
+    "solution",
+    "parser"
+  ],
+  "author": {
+    "name": "Steven Weerdenburg"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "dependencies": {
+    "is-buffer": "^2.0.2",
+    "semver-utils": "^1.1.1",
+    "xml-parser": "^1.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.5.3",
+    "nyc": "^11.2.1"
+  }
+}

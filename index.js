@@ -2,10 +2,11 @@
 
 const lib = require('./src/lib.js');
 const project = require('./src/csproj.js');
-const solution = require('./src/sln.js');
+const sln = require('./src/sln.js');
 
 module.exports = {
-  lib,
-  project,
-  solution,
+  parseSemver: lib.parseSemver,
+  parsePackages: project.parsePackages,
+  parseProject: project.parseProject,
+  parseSolution: sln.parseSolution
 };

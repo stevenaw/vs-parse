@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 const parseXml = require('xml-parser');
 const path = require('path');
 const helpers = require('./internal');

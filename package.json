@@ -22,9 +22,10 @@
     "name": "Steven Weerdenburg"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "dependencies": {
+    "fs-extra": "^7.0.0",
     "is-buffer": "^2.0.2",
     "semver-utils": "^1.1.1",
     "xml-parser": "^1.2.1"

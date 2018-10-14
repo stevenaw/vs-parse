@@ -15,6 +15,29 @@ const isVsFileContents = (file) => {
   return (typeof file === 'string' && newLine.test(file));
 };
 
+const getFileContentsOrFail = (file, options) => {
+  return new Promise((resolve, reject) => {
+    if(isVsFileContents(file)) {
+      resolve(file);
+      return;
+    }
+
+    const myOptions = (options && Object.assign({}, options, defaultOptions)) || defaultOptions;
+
+    if (isBuffer(file)) {
+      const decoder = new StringDecoder(myOptions.encoding);
+      const result = decoder.write(file);
+      resolve(result);
+      return;
+    }
+
+    return fs.readFile(file, myOptions).then(
+      result => resolve(result),
+      err => reject(err)
+    );
+  });
+}
+
 const getFileContentsOrFailSync = (file, options) => {
   if(isVsFileContents(file)) {
     return file;
@@ -28,8 +51,7 @@ const getFileContentsOrFailSync = (file, options) => {
   }
 
   try {
-    const input = fs.readFileSync(file, myOptions);
-    return input;
+    return fs.readFileSync(file, myOptions);
   } catch (e) {
     if (typeof file === 'string' && !fileExists.sync(file)) {
       throw new Error('File not found: ' + file);
@@ -39,19 +61,12 @@ const getFileContentsOrFailSync = (file, options) => {
   }
 }
 
-const fileExistsSync = (filePath) => {
-  try {
-    return fs.statSync(filePath).isFile();
-  } catch (e) {
-    if (e.code === 'ENOENT') {
-      return false;
-    } else {
-      throw e;
-    }
-  }
-}
+const fileExistsSync = (filePath) => fs.pathExistsSync(filePath);
+const fileExists = (filePath) => fs.pathExists(filePath);
 
 module.exports = {
   getFileContentsOrFailSync,
-  fileExistsSync
+  getFileContentsOrFail,
+  fileExistsSync,
+  fileExists
 };

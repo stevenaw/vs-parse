@@ -39,9 +39,34 @@ const parseSolutionProject = (lineOfText) => {
   }
 };
 
-const parseSolution = (filePath, options) => {
+const parseSolutionSync = (filePath, options) => {
   const providedOptions = options || {};
   const contents = helpers.getFileContentsOrFailSync(filePath);
+  const returnValue = parseSolutionInternal(contents);
+
+  if(providedOptions.deepParse) {    
+    for(let i = 0; i < returnValue.projects.length; i++) {
+      const project = returnValue.projects[i];
+
+      if(project && project.relativePath) {
+        const slnDir = path.dirname(filePath);
+        const projectLocation = path.join(slnDir, project.relativePath);
+
+        if(helpers.fileExistsSync(projectLocation)) {
+          const projectData = csproj.parseProjectSync(projectLocation, providedOptions);
+
+          if(projectData) {
+            returnValue.projects[i] = Object.assign({}, project, projectData);
+          }
+        }
+      }
+    }
+  }
+
+  return returnValue;
+};
+
+const parseSolutionInternal = (contents) => {
   const lines = contents.replace(/\r\n/g, '\n').split('\n');
 
   const returnValue = {
@@ -73,28 +98,9 @@ const parseSolution = (filePath, options) => {
     }
   }
 
-  if(providedOptions.deepParse) {    
-    for(let i = 0; i < returnValue.projects.length; i++) {
-      const project = returnValue.projects[i];
-
-      if(project && project.relativePath) {
-        const slnDir = path.dirname(filePath);
-        const projectLocation = path.join(slnDir, project.relativePath);
-
-        if(helpers.fileExistsSync(projectLocation)) {
-          const projectData = csproj.parseProject(projectLocation, providedOptions);
-
-          if(projectData) {
-            returnValue.projects[i] = Object.assign({}, project, projectData);
-          }
-        }
-      }
-    }
-  }
-
   return returnValue;
-};
+}
 
 module.exports = {
-  parseSolution,
+  parseSolutionSync,
 };

@@ -48,9 +48,17 @@ const parseAssemblyReference = (node) => {
   return result;
 };
 
-
 const parsePackages = (filePath) => {
+  return helpers.getFileContentsOrFail(filePath)
+    .then(parsePackagesInternal);
+};
+
+const parsePackagesSync = (filePath) => {
   const contents = helpers.getFileContentsOrFailSync(filePath);
+  return parsePackagesInternal(contents);
+};
+
+const parsePackagesInternal = (contents) => {
   const xml = parseXml(contents);
 
   return xml.root.children.reduce((data, packageNode) => {
@@ -70,10 +78,52 @@ const parsePackages = (filePath) => {
 
 const parseProject = (filePath, options) => {
   const providedOptions = options || {};
+  return helpers.getFileContentsOrFail(filePath)
+    .then(contents => {
+      const result = parseProjectInternal(contents);
+
+      if(!providedOptions.deepParse) {
+        return result;
+      } else {
+        const projDir = path.dirname(filePath);
+        const packagesLocation = path.join(projDir, 'packages.config');
+
+        return helpers.fileExists(packagesLocation)
+          .then(exists => {
+            if (!exists) {
+              return result;
+            } else {
+              return parsePackages(packagesLocation)
+                .then(packages => {
+                  result.packages = packages || [];
+                  return result;
+                });
+            }
+          });
+      }
+    });
+};
+
+const parseProjectSync = (filePath, options) => {
+  const providedOptions = options || {};
   const contents = helpers.getFileContentsOrFailSync(filePath);
+  const result = parseProjectInternal(contents);
+
+  if(providedOptions.deepParse) {
+    const projDir = path.dirname(filePath);
+    const packagesLocation = path.join(projDir, 'packages.config');
+
+    const packages = helpers.fileExistsSync(packagesLocation) && parsePackagesSync(packagesLocation);
+    result.packages = packages || [];
+  }
+
+  return result;
+};
+
+const parseProjectInternal = (contents) => {
   const xml = parseXml(contents);
 
-  const result = xml.root.children.reduce((projectData, directChild) => {
+  return xml.root.children.reduce((projectData, directChild) => {
     if (directChild.name === 'ItemGroup') {
       const children = directChild.children;
 
@@ -95,19 +145,11 @@ const parseProject = (filePath, options) => {
     codeFiles: [],
     packages: [],
   });
-
-  if(providedOptions.deepParse) {
-    const projDir = path.dirname(filePath);
-    const packagesLocation = path.join(projDir, 'packages.config');
-
-    let packages = helpers.fileExistsSync(packagesLocation) && parsePackages(packagesLocation);
-    result.packages = packages || [];
-  }
-
-  return result;
-};
+}
 
 module.exports = {
+  parseProjectSync,
   parseProject,
-  parsePackages,
+  parsePackagesSync,
+  parsePackages
 };

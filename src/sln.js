@@ -67,6 +67,8 @@ const parseSolution = (filePath, options) => {
               returnValue.projects[i] = Object.assign({}, returnValue.projects[i], projectData);
             }
           }
+
+          return returnValue;
         });
       }
 

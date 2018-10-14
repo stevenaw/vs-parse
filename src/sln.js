@@ -39,6 +39,41 @@ const parseSolutionProject = (lineOfText) => {
   }
 };
 
+const parseSolution = (filePath, options) => {
+  const providedOptions = options || {};
+  return helpers.getFileContentsOrFail(filePath)
+    .then(contents => {
+      const returnValue = parseSolutionInternal(contents);
+
+      if(providedOptions.deepParse) {
+        const projectPromises = returnValue.projects.map(project => {
+          if(project && project.relativePath) {
+            const slnDir = path.dirname(filePath);
+            const projectLocation = path.join(slnDir, project.relativePath);
+
+            return helpers.fileExists(projectLocation)
+              .then(exists => {
+                return exists ? csproj.parseProject(projectLocation, providedOptions) : null;
+              });
+          } else {
+            return null;
+          }
+        });
+
+        return Promise.all(projectPromises).then(fullProjects => {
+          for(let i = 0; i < returnValue.projects.length; i++) {
+            const projectData = fullProjects[i];
+            if (projectData) {
+              returnValue.projects[i] = Object.assign({}, returnValue.projects[i], projectData);
+            }
+          }
+        });
+      }
+
+      return returnValue;
+    });
+};
+
 const parseSolutionSync = (filePath, options) => {
   const providedOptions = options || {};
   const contents = helpers.getFileContentsOrFailSync(filePath);
@@ -103,4 +138,5 @@ const parseSolutionInternal = (contents) => {
 
 module.exports = {
   parseSolutionSync,
+  parseSolution
 };

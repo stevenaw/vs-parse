@@ -104,7 +104,7 @@ const parseSolutionSync = (filePath, options) => {
 };
 
 const parseSolutionInternal = (contents) => {
-  const lines = contents.replace(/\r\n/g, '\n').split('\n');
+  const lines = contents.replace(/(\r\n|\r)/g, '\n').split('\n');
 
   const returnValue = {
     fileFormatVersion: undefined,

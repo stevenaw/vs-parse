@@ -1,4 +1,3 @@
-'use strict';
 const parser = require('../');
 
 const determineNunitRunner = (version) => {
@@ -41,38 +40,8 @@ const determinePackageVersions = (solutionData, packageName) => {
   }
 };
 
-const demoScenarios = {
-  demoProjectParse: function (data, description) {
-    const nunitVersion = data.references.find(ref => ref.assemblyName === 'nunit.framework').version;
-    const runner = determineNunitRunner(nunitVersion);
-    const executable = determineNunitExecutable(nunitVersion);
-
-    console.log(description);
-    console.log(`${runner}\\tools\\${executable}\r\n`);
-  },
-
-  demoPackageParse: function (data, description) {
-    const nunitVersion = data.find(ref => ref.name === 'NUnit.ConsoleRunner').version;
-    const runner = determineNunitRunner(nunitVersion);
-    const executable = determineNunitExecutable(nunitVersion);
-
-    console.log(description);
-    console.log(`${runner}\\tools\\${executable}\r\n`);
-  },
-
-  demoSolutionParse: function (data, description) {
-    const nunitVersion = determinePackageVersions(data, 'NUnit.ConsoleRunner');
-    const runner = determineNunitRunner(nunitVersion);
-    const executable = determineNunitExecutable(nunitVersion);
-
-    console.log(description);
-    console.log(`${runner}\\tools\\${executable}\r\n`);
-  }
-};
-
 module.exports = {
   determineNunitRunner,
   determineNunitExecutable,
-  determinePackageVersions,
-  demoScenarios,
+  determinePackageVersions
 };

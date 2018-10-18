@@ -1,6 +1,6 @@
 const os = require('os');
-const parser = require('../');
-const scenarios = require('./dependencyParsing.scenarios');
+const parser = require('../../');
+const scenarios = require('./scenarios');
 
 console.log(os.EOL + 'Dependency Parsing (synchronous)');
 console.log(         '---------------------------------')

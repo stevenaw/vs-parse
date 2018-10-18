@@ -8,5 +8,8 @@ module.exports = {
   parseSemver: lib.parseSemver,
   parsePackages: project.parsePackages,
   parseProject: project.parseProject,
-  parseSolution: sln.parseSolution
+  parseSolution: sln.parseSolution,
+  parsePackagesSync: project.parsePackagesSync,
+  parseProjectSync: project.parseProjectSync,
+  parseSolutionSync: sln.parseSolutionSync,
 };

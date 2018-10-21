@@ -5,7 +5,7 @@ const lib = require('../src/lib');
 
 describe('lib', () => {
 
-  describe('#parseSemver()', () => {
+  describe('#parseSemverSync()', () => {
     const testCases = [
       {input: null, output: null},
       {input: undefined, output: null},
@@ -23,7 +23,7 @@ describe('lib', () => {
       const testCase = testCases[i];
 
       it(`should parse '${testCase.input}' as '${testCase.output}'`, () => {
-        const actualOutput = lib.parseSemver(testCase.input);
+        const actualOutput = lib.parseSemverSync(testCase.input);
 
         if(actualOutput) {
           assert.isObject(actualOutput);

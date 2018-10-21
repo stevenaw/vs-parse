@@ -5,11 +5,11 @@ const project = require('./src/csproj.js');
 const sln = require('./src/sln.js');
 
 module.exports = {
-  parseSemver: lib.parseSemver,
+  parseSemverSync: lib.parseSemverSync,
   parsePackages: project.parsePackages,
-  parseProject: project.parseProject,
-  parseSolution: sln.parseSolution,
   parsePackagesSync: project.parsePackagesSync,
+  parseProject: project.parseProject,
   parseProjectSync: project.parseProjectSync,
+  parseSolution: sln.parseSolution,
   parseSolutionSync: sln.parseSolutionSync,
 };

@@ -1,14 +1,18 @@
 # vs-parse
 
-Node-based utilities for working with Visual Studio projects/solutions.
+Node-based parser of Visual Studio projects/solutions.
 
 ## Modules
+All functions come in synchronous and asynchronous versions. Synchronous versions are suffixed with "Sync".
+Asynchronous versions return a promise which resolves to the same value as the synchronous version of a function.
 
 ### parseSolution
+### parseSolutionSync
 Solution file parser
 
 ```js
-const parseSolution = (file, options = {}) => {}
+const parseSolution = (file, options = {}) => Promise.resolve({})
+const parseSolutionSync = (file, options = {}) => {}
 ```
 
 #### Examples
@@ -17,7 +21,7 @@ From a path
 
 ```js
 const parser = require('vs-parse');
-const solutionData = parser.parseSolution('HelloWorld.sln');
+const solutionData = await parser.parseSolution('HelloWorld.sln');
 ```
 
 From a string
@@ -27,7 +31,7 @@ const parser = require('vs-parse');
 const fs = require('fs');
 
 const contents = fs.readFileSync('HelloWorld.sln', { encoding: 'utf-8' });
-const solutionData = parser.parseSolution(contents);
+const solutionData = await parser.parseSolution(contents);
 ```
 
 From a buffer
@@ -37,14 +41,14 @@ const parser = require('vs-parse');
 const fs = require('fs');
 
 const buffer = fs.readFileSync('HelloWorld.sln');
-const solutionData = parser.parseSolution(buffer);
+const solutionData = await parser.parseSolution(buffer);
 ```
 
 #### Sample Output
 
 ```js
 const parser = require('vs-parse');
-const solutionData = parser.parseSolution('HelloWorld.sln');
+const solutionData = await parser.parseSolution('HelloWorld.sln');
 
 console.log(solutionData);
 /*
@@ -71,7 +75,7 @@ A full parse of a solution and all its dependencies can be done by passing the [
 Example:
 ```js
 const parser = require('vs-parse');
-const solutionData = parser.parseSolution('HelloWorld.sln' { deepParse: true });
+const solutionData = await parser.parseSolution('HelloWorld.sln' { deepParse: true });
 
 console.log(solutionData);
 /*
@@ -116,10 +120,12 @@ console.log(solutionData);
 ```
 
 ### parseProject
+### parseProjectSync
 Parses a project file.
 
 ```js
-const parseProject = (file, options = {}) => {}
+const parseProject = (file, options = {}) => Promise.resolve({})
+const parseProjectSync = (file, options = {}) => {}
 ```
 
 #### Examples
@@ -128,7 +134,7 @@ From a path
 
 ```js
 const parser = require('vs-parse');
-const projectData = parser.parseProject('./TestNUnit3/TestNUnit3.csproj');
+const projectData = await parser.parseProject('./TestNUnit3/TestNUnit3.csproj');
 ```
 
 From a string
@@ -138,7 +144,7 @@ const parser = require('vs-parse');
 const fs = require('fs');
 
 const contents = fs.readFileSync('./TestNUnit3/TestNUnit3.csproj', { encoding: 'utf-8' });
-const projectData = parser.parseProject(contents);
+const projectData = await parser.parseProject(contents);
 ```
 
 From a buffer
@@ -148,7 +154,7 @@ const parser = require('vs-parse');
 const fs = require('fs');
 
 const buffer = fs.readFileSync('./TestNUnit3/TestNUnit3.csproj');
-const projectData = parser.parseProject(buffer);
+const projectData = await parser.parseProject(buffer);
 ```
 
 #### Sample Output
@@ -156,7 +162,7 @@ const projectData = parser.parseProject(buffer);
 Example:
 ```js
 const parser = require('vs-parse');
-const projectData = parser.parseProject('./TestNUnit3/TestNUnit3.csproj');
+const projectData = await parser.parseProject('./TestNUnit3/TestNUnit3.csproj');
 
 console.log(projectData);
 /*
@@ -187,7 +193,7 @@ A full parse of a project and all its dependencies can be done by passing the [`
 Example:
 ```js
 const parser = require('vs-parse');
-const projectData = parser.parseProject('./TestNUnit3/TestNUnit3.csproj', { deepParse: true });
+const projectData = await parser.parseProject('./TestNUnit3/TestNUnit3.csproj', { deepParse: true });
 
 console.log(projectData);
 /*
@@ -220,12 +226,19 @@ console.log(projectData);
 */
 ```
 
-#### parsePackages
+### parsePackages
+### parsePackagesSync
 Parses a nuget package file.
 
 ```js
+const parsePackages = (file, options = {}) => Promise.resolve({})
+const parsePackagesSync = (file, options = {}) => {}
+```
+
+#### Examples
+```js
 const parser = require('vs-parse');
-const packages = parser.parsePackages('./packages.config');
+const packages = await parser.parsePackages('./packages.config');
 
 console.log(packages);
 /*
@@ -241,14 +254,14 @@ console.log(packages);
 */
 ```
 
-### parseSemver
+### parseSemverSync
 A very simple semver parser. Mostly a wrapper over standardized tools, with support for .NET-specific assembly versioning.
 
 ```js
 const parser = require('vs-parse');
 
 const versionString = '1.2.3.4';
-const versionInfo = parser.parseSemver(versionString);
+const versionInfo = parser.parseSemverSync(versionString);
 
 console.log(versionInfo);
 /*

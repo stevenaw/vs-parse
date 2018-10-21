@@ -1,7 +1,7 @@
 const parser = require('../');
 
 const determineNunitRunner = (version) => {
-  const semver = parser.parseSemver(version);
+  const semver = parser.parseSemverSync(version);
 
   if(parseInt(semver.major, 10) < 3) {
     return `NUnit.Runners.${semver.version}`;
@@ -11,7 +11,7 @@ const determineNunitRunner = (version) => {
 }
 
 const determineNunitExecutable = (version, arch) => {
-  const semver = parser.parseSemver(version);
+  const semver = parser.parseSemverSync(version);
 
   if(parseInt(semver.major, 10) < 3) {
     const archFlag = arch === 'X86' ? '-x86' : '';

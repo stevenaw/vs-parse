@@ -18,7 +18,7 @@ const nthIndexOfChar = (haystack, needle, n) => {
   return -1;
 }
 
-const parseSemver = (versionString) => {
+const parseSemverSync = (versionString) => {
   if(!versionString) {
     return null;
   }
@@ -37,5 +37,5 @@ const parseSemver = (versionString) => {
 
 
 module.exports = {
-  parseSemver,
+  parseSemverSync,
 };

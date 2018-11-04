@@ -1,14 +1,14 @@
 'use strict';
 
 const parseXml = require('xml-parser');
-const path = require('path');
+const path = require('upath');
 const helpers = require('./internal');
 
 const parseCodeFile = (node) => {
   const fileName = node.attributes.Include;
 
   return {
-    fileName
+    fileName: helpers.normalizePath(fileName)
   };
 };
 
@@ -42,7 +42,7 @@ const parseAssemblyReference = (node) => {
   }
 
   if(hintPathNode && hintPathNode.name === 'HintPath' && hintPathNode.content) {
-    result.hintPath = hintPathNode.content;
+    result.hintPath = helpers.normalizePath(hintPathNode.content);
   }
 
   return result;

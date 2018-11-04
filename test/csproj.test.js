@@ -2,6 +2,7 @@
 
 const assert = require('chai').assert;
 const fs = require('fs');
+const path = require('path');
 const csproj = require('../src/csproj');
 
 describe('csproj', () => {
@@ -78,16 +79,27 @@ describe('csproj', () => {
       assert.isString(targetReference.hintPath);
     });
 
-    it('should parse sample lib correctly', () => {
-      const result = csproj.parseProjectSync('./test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj').references;
-      const targetReference = result[2];
+    it('should parse sample lib reference correctly', () => {
+      const result = csproj.parseProjectSync('./test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj');
+      
+      const targetReference = result.references[2];
+      const expectedHintPath = path.join('..', 'packages', 'NUnit.3.7.1', 'lib', 'net45', 'nunit.framework.dll');
 
       assert.equal(targetReference.assemblyName, 'nunit.framework');
       assert.equal(targetReference.version, '3.7.1.0');
       assert.equal(targetReference.culture, 'neutral');
       assert.equal(targetReference.processorArchitecture, 'MSIL');
       assert.equal(targetReference.publicKeyToken, '2638cd05610744eb');
-      assert.equal(targetReference.hintPath, '..\\packages\\NUnit.3.7.1\\lib\\net45\\nunit.framework.dll');
+      assert.equal(targetReference.hintPath, expectedHintPath);
+    });
+
+    it('should parse sample lib code file correctly', () => {
+      const result = csproj.parseProjectSync('./test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj');
+      
+      const target = result.codeFiles[1];
+      const expectedFilePath = path.join('Properties', 'AssemblyInfo.cs');
+
+      assert.equal(target.fileName, expectedFilePath);
     });
   });
 
@@ -185,18 +197,19 @@ describe('csproj', () => {
       });
     });
 
-    it('should parse sample lib correctly', () => {
+    it('should parse sample lib reference correctly', () => {
       const promise = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj');
       
       return promise.then(result => {
         const targetReference = result.references[2];
+        const expectedHintPath = path.join('..', 'packages', 'NUnit.3.7.1', 'lib', 'net45', 'nunit.framework.dll');
 
         assert.equal(targetReference.assemblyName, 'nunit.framework');
         assert.equal(targetReference.version, '3.7.1.0');
         assert.equal(targetReference.culture, 'neutral');
         assert.equal(targetReference.processorArchitecture, 'MSIL');
         assert.equal(targetReference.publicKeyToken, '2638cd05610744eb');
-        assert.equal(targetReference.hintPath, '..\\packages\\NUnit.3.7.1\\lib\\net45\\nunit.framework.dll');
+        assert.equal(targetReference.hintPath, expectedHintPath);
       });
     });
   });

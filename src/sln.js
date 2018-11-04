@@ -1,6 +1,6 @@
 'use strict';
 
-const path = require('path');
+const path = require('upath');
 const csproj = require('./csproj');
 const helpers = require('./internal');
 
@@ -33,7 +33,7 @@ const parseSolutionProject = (lineOfText) => {
     return {
       id: result[4],
       name: result[2],
-      relativePath: result[3],
+      relativePath: helpers.normalizePath(result[3]),
       projectTypeId: result[1],
     }
   }

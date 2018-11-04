@@ -2,6 +2,7 @@
 
 const assert = require('chai').assert;
 const fs = require('fs');
+const path = require('path');
 const sln = require('../src/sln');
 
 describe('sln', () => {
@@ -121,10 +122,11 @@ describe('sln', () => {
       it('should parse sample lib correctly', () => {
         const result = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
         const sampleProject = result[1];
+        const expectedPath = path.join('TestNUnit3', 'TestNUnit3.csproj');
 
         assert.equal(sampleProject.id, '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF');
         assert.equal(sampleProject.name, 'TestNUnit3');
-        assert.equal(sampleProject.relativePath, 'TestNUnit3\\TestNUnit3.csproj');
+        assert.equal(sampleProject.relativePath, expectedPath);
         assert.equal(sampleProject.projectTypeId, 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC');
       });
 
@@ -308,10 +310,11 @@ describe('sln', () => {
 
         return promise.then(solutionData => {
           const sampleProject = solutionData.projects[1];
+          const expectedPath = path.join('TestNUnit3', 'TestNUnit3.csproj');
 
           assert.equal(sampleProject.id, '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF');
           assert.equal(sampleProject.name, 'TestNUnit3');
-          assert.equal(sampleProject.relativePath, 'TestNUnit3\\TestNUnit3.csproj');
+          assert.equal(sampleProject.relativePath, expectedPath);
           assert.equal(sampleProject.projectTypeId, 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC');
         });
       });
@@ -353,9 +356,9 @@ describe('sln', () => {
 
           for(let i=0; i < result.length; i++) {
             if(result[i].name !== 'SolutionItems' && result[i].name !== 'nuget') {
-              assert.property(result[i], 'references');
-              assert.property(result[i], 'codeFiles');
-              assert.property(result[i], 'packages');
+              assert.property(result[i], 'references', 'project[' + i + '] is missing references');
+              assert.property(result[i], 'codeFiles', 'project[' + i + '] is missing codeFiles');
+              assert.property(result[i], 'packages', 'project[' + i + '] is missing packages');
             }
           }
         });

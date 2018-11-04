@@ -1,7 +1,8 @@
 'use strict';
 
+const os = require('os');
 const fs = require('fs-extra');
-const path = require('path');
+const path = require('upath');
 const isBuffer = require('is-buffer');
 const StringDecoder = require('string_decoder').StringDecoder;
 
@@ -9,6 +10,8 @@ const newLine = /\r|\n/g;
 const defaultOptions = {
   encoding: 'utf-8'
 }
+
+const normalizePath = (pathStr) => os.platform() == 'win32' ? pathStr : path.normalize(pathStr);
 
 const isVsFileContents = (file) => {
   // Naive way to determine if string is a path or vs proj/sln file
@@ -68,5 +71,6 @@ module.exports = {
   getFileContentsOrFailSync,
   getFileContentsOrFail,
   fileExistsSync,
-  fileExists
+  fileExists,
+  normalizePath
 };

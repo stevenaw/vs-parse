@@ -11,7 +11,7 @@
     "preversion": "npm test",
     "postversion": "git push && git push --tags"
   },
-  "tags": [
+  "keywords": [
     "visual studio",
     "csproj",
     "sln",

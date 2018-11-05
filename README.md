@@ -1,4 +1,5 @@
 # vs-parse
+[![Build Status](https://travis-ci.org/stevenaw/vs-parse.svg?branch=master)](https://travis-ci.org/stevenaw/vs-parse)
 
 Node-based parser of Visual Studio projects/solutions.
 

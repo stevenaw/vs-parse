@@ -1,6 +1,6 @@
 'use strict';
 
-const path = require('upath');
+const path = require('path');
 const csproj = require('./csproj');
 const helpers = require('./internal');
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const parseXml = require('xml-parser');
-const path = require('upath');
+const path = require('path');
 const helpers = require('./internal');
 
 const parseCodeFile = (node) => {

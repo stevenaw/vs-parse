@@ -2,7 +2,7 @@
 
 const os = require('os');
 const fs = require('fs-extra');
-const path = require('upath');
+const upath = require('upath');
 const isBuffer = require('is-buffer');
 const StringDecoder = require('string_decoder').StringDecoder;
 
@@ -11,7 +11,7 @@ const defaultOptions = {
   encoding: 'utf-8'
 }
 
-const normalizePath = (pathStr) => os.platform() == 'win32' ? pathStr : path.normalize(pathStr);
+const normalizePath = (pathStr) => os.platform() == 'win32' ? pathStr : upath.normalize(pathStr);
 
 const isVsFileContents = (file) => {
   // Naive way to determine if string is a path or vs proj/sln file

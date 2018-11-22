@@ -1,6 +1,7 @@
 # vs-parse
 [![Build status](https://ci.appveyor.com/api/projects/status/44f4pdkv7srj547i/branch/master?svg=true)](https://ci.appveyor.com/project/stevenaw/vs-parse/branch/master)
 [![Travis Build Status](https://travis-ci.org/stevenaw/vs-parse.svg?branch=master)](https://travis-ci.org/stevenaw/vs-parse)
+[![Build Status](https://sweerdenburg.visualstudio.com/vs-parse/_apis/build/status/stevenaw.vs-parse)](https://sweerdenburg.visualstudio.com/vs-parse/_build/latest?definitionId=1)
 
 Node-based parser of Visual Studio projects/solutions.
 

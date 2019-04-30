@@ -22,7 +22,7 @@
     "name": "Steven Weerdenburg"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=8"
   },
   "dependencies": {
     "fs-extra": "^7.0.0",

@@ -31,7 +31,9 @@ const parseSemverSync = (versionString) => {
     major: parsed.major,
     minor: parsed.minor,
     patch: parsed.patch,
-    version: parsed.version
+    version: parsed.version,
+    originalString: versionString,
+    toString: () => parsed.version
   } : null;
 };
 

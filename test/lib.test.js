@@ -27,7 +27,10 @@ describe('lib', () => {
 
         if(actualOutput) {
           assert.isObject(actualOutput);
+          
           assert.equal(actualOutput.version, testCase.output);
+          assert.equal(actualOutput.originalString, testCase.input);
+          assert.equal(actualOutput.toString(), testCase.output);
         } else {
           assert.equal(actualOutput, testCase.output);
         }

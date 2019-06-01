@@ -273,7 +273,8 @@ console.log(versionInfo);
     major: '1',
     minor: '2',
     patch: '3',
-    version: '1.2.3'
+    version: '1.2.3',
+    originalString: '1.2.3.4'
   }
 */
 ```

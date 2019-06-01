@@ -123,6 +123,10 @@ const parseProjectSync = (filePath, options) => {
 const parseProjectInternal = (contents) => {
   const xml = parseXml(contents);
 
+  if (!xml || !xml.root) {
+    throw new Error('No root element in project file');
+  }
+
   return xml.root.children.reduce((projectData, directChild) => {
     if (directChild.name === 'ItemGroup') {
       const children = directChild.children;

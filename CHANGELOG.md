@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.1.0](https://github.com/stevenaw/vs-parse/compare/v1.0.3...master) (TBD)
+## [1.1.0](https://github.com/stevenaw/vs-parse/compare/v1.0.3...v1.1.0) (2019-06-01)
 - Added `originalString` property on version object
 - Override `toString()` on version object to return `version` property
 - Fix crash when parsing invalid project file by throwing descriptive error

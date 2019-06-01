@@ -1,3 +1,5 @@
 test/
 .nyc_output
 .github
+.gitattributes
+*.yml

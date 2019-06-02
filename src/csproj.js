@@ -85,7 +85,7 @@ const parseProject = (filePath, options) => {
       if(!providedOptions.deepParse) {
         return result;
       } else {
-        const projDir = path.dirname(filePath);
+        const projDir = helpers.getFileDirectory(filePath, options);
         const packagesLocation = path.join(projDir, 'packages.config');
 
         return helpers.fileExists(packagesLocation)
@@ -110,7 +110,7 @@ const parseProjectSync = (filePath, options) => {
   const result = parseProjectInternal(contents);
 
   if(providedOptions.deepParse) {
-    const projDir = path.dirname(filePath);
+    const projDir = helpers.getFileDirectory(filePath, options);
     const packagesLocation = path.join(projDir, 'packages.config');
 
     const packages = helpers.fileExistsSync(packagesLocation) && parsePackagesSync(packagesLocation);

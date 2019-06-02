@@ -1,14 +1,27 @@
 'use strict';
 
-const os = require('os');
 const fs = require('fs-extra');
-const upath = require('upath');
 const isBuffer = require('is-buffer');
+const os = require('os');
+const path = require('path');
+const upath = require('upath');
 const StringDecoder = require('string_decoder').StringDecoder;
 
 const newLine = /\r|\n/g;
 const defaultOptions = {
   encoding: 'utf-8'
+}
+
+const getFileDirectory = (filePath, options) => {
+  const dir = (isVsFileContents(filePath) || isBuffer(filePath))
+                  ? options.dirRoot
+                  : path.dirname(filePath);
+                  
+  if (!dir) {
+    throw new Error('Could not determine root directory. Please specify \'dirRoot\' if doing a deep parse');
+  }
+
+  return dir;
 }
 
 const normalizePath = (pathStr) => os.platform() == 'win32' ? pathStr : upath.normalize(pathStr);
@@ -72,5 +85,6 @@ module.exports = {
   getFileContentsOrFail,
   fileExistsSync,
   fileExists,
-  normalizePath
+  normalizePath,
+  getFileDirectory
 };

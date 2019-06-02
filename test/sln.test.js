@@ -6,7 +6,6 @@ const path = require('path');
 const sln = require('../src/sln');
 
 describe('sln', () => {
-
   describe('#parseSolutionSync()', () => {
     it('should should throw error if file doesnt exist', () => {
       assert.throws(() => sln.parseSolutionSync('NOPE'));
@@ -32,284 +31,170 @@ describe('sln', () => {
       assert.exists(solutionData.fileFormatVersion);
     });
 
-    describe('#parseSolutionSync().fileFormatVersion', () => {
-      it('should have property "fileFormatVersion"', () => {
-        const solutionData = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+    it('should shallow parse when request no deep parse', () => {
+      const result = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
 
-        assert.exists(solutionData.fileFormatVersion);
-        assert.isString(solutionData.fileFormatVersion);
-      });
-
-      it('should parse property "fileFormatVersion" correctly', () => {
-        const solutionData = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        assert.equal(solutionData.fileFormatVersion, '12.00');
-      });
+      for(let i=0; i < result.length; i++) {
+        assert.notProperty(result[i], 'references');
+        assert.notProperty(result[i], 'codeFiles');
+        assert.notProperty(result[i], 'packages');
+      }
     });
 
-    describe('#parseSolutionSync().visualStudioVersion', () => {
-      it('should have property "visualStudioVersion"', () => {
-        const solutionData = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+    it('should deep parse when requested', () => {
+      const parseOptions = { deepParse: true };
+      const result = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln', parseOptions).projects;
 
-        assert.exists(solutionData.visualStudioVersion);
-        assert.isString(solutionData.visualStudioVersion);
-      });
-
-      it('should parse property "visualStudioVersion" correctly', () => {
-        const solutionData = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        assert.equal(solutionData.visualStudioVersion, '15.0.27004.2009');
-      });
+      for(let i=0; i < result.length; i++) {
+        if(result[i].name !== 'SolutionItems' && result[i].name !== 'nuget') {
+          assert.property(result[i], 'references');
+          assert.property(result[i], 'codeFiles');
+          assert.property(result[i], 'packages');
+        }
+      }
     });
-
-    describe('#parseSolutionSync().minimumVisualStudioVersion', () => {
-      it('should have property "minimumVisualStudioVersion"', () => {
-        const solutionData = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        assert.exists(solutionData.minimumVisualStudioVersion);
-        assert.isString(solutionData.minimumVisualStudioVersion);
-      });
-
-      it('should parse property "minimumVisualStudioVersion" correctly', () => {
-        const solutionData = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        assert.equal(solutionData.minimumVisualStudioVersion, '10.0.40219.1');
-      });
-    });
-
-    describe('#parseSolutionSync().projects', () => {
-      it('should have property "projects"', () => {
-        const solutionData = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        assert.exists(solutionData.projects);
-        assert.isArray(solutionData.projects);
-      });
-
-      it('should have expected length', () => {
-        const result = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
-
-        assert.equal(result.length, 6);
-
-        for(let i=0; i < result.length; i++) {
-          assert.isObject(result[i]);
-        }
-      });
-
-      it('should be array of correct shape', () => {
-        const result = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
-
-        for(let i=0; i < result.length; i++) {
-          assert.isObject(result[i]);
-
-          assert.property(result[i], 'id');
-          assert.property(result[i], 'name');
-          assert.property(result[i], 'relativePath');
-          assert.property(result[i], 'projectTypeId');
-        }
-      });
-
-      it('should parse supported props as expected', () => {
-        const result = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
-
-        for(let i=0; i < result.length; i++) {
-          assert.isString(result[i].id);
-          assert.isString(result[i].name);
-          assert.isString(result[i].relativePath);
-          assert.isString(result[i].projectTypeId);
-        }
-      });
-
-      it('should parse sample lib correctly', () => {
-        const result = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
-        const sampleProject = result[1];
-        const expectedPath = path.join('TestNUnit3', 'TestNUnit3.csproj');
-
-        assert.equal(sampleProject.id, '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF');
-        assert.equal(sampleProject.name, 'TestNUnit3');
-        assert.equal(sampleProject.relativePath, expectedPath);
-        assert.equal(sampleProject.projectTypeId, 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC');
-      });
-
-      it('should shallow parse by default', () => {
-        const result = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
-
-        for(let i=0; i < result.length; i++) {
-          assert.notProperty(result[i], 'references');
-          assert.notProperty(result[i], 'codeFiles');
-          assert.notProperty(result[i], 'packages');
-        }
-      });
-
-      it('should shallow parse when request no deep parse', () => {
-        const parseOptions = { deepParse: false };
-        const result = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln').projects;
-
-        for(let i=0; i < result.length; i++) {
-          assert.notProperty(result[i], 'references');
-          assert.notProperty(result[i], 'codeFiles');
-          assert.notProperty(result[i], 'packages');
-        }
-      });
-
-      it('should deep parse when requested', () => {
-        const parseOptions = { deepParse: true };
-        const result = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln', parseOptions).projects;
-
-        for(let i=0; i < result.length; i++) {
-          if(result[i].name !== 'SolutionItems' && result[i].name !== 'nuget') {
-            assert.property(result[i], 'references');
-            assert.property(result[i], 'codeFiles');
-            assert.property(result[i], 'packages');
-          }
-        }
-      });
-    });
-
   });
 
 
+
   describe('#parseSolution()', () => {
-    it('should should reject promise if file doesnt exist', () => {
+    it('should should throw error if file doesnt exist', () => {
       const promise = sln.parseSolution('NOPE');
       
       return promise.catch(error => assert.isTrue(true));
     });
 
-    it('should read as path when path provided', () => {
-      const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+    it('should read as path when path provided', async () => {
+      const solutionData = await sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
 
-      return promise.then(solutionData => assert.exists(solutionData.fileFormatVersion));
+      assert.exists(solutionData.fileFormatVersion);
     });
 
-    it('should read as file contents when contents provided', () => {
+    it('should read as file contents when contents provided', async () => {
       const contents = fs.readFileSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln', { encoding: 'utf-8' });
-      const promise = sln.parseSolution(contents);
+      const solutionData = await sln.parseSolution(contents);
 
-      return promise.then(solutionData => assert.exists(solutionData.fileFormatVersion));
+      assert.exists(solutionData.fileFormatVersion);
     });
 
-    it('should read as file contents when buffer provided', () => {
+    it('should read as file contents when buffer provided', async () => {
       const contents = fs.readFileSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-      const promise = sln.parseSolution(contents);
+      const solutionData = await sln.parseSolution(contents);
 
-      return promise.then(solutionData => assert.exists(solutionData.fileFormatVersion));
+      assert.exists(solutionData.fileFormatVersion);
     });
 
-    describe('#parseSolution().fileFormatVersion', () => {
-      it('should have property "fileFormatVersion"', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+    it('should shallow parse when request no deep parse', async () => {
+      const data = await sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+      const result = data.projects;
 
-        return promise.then(solutionData => {
+      for(let i=0; i < result.length; i++) {
+        assert.notProperty(result[i], 'references');
+        assert.notProperty(result[i], 'codeFiles');
+        assert.notProperty(result[i], 'packages');
+      }
+    });
+
+    it('should deep parse when requested', async () => {
+      const parseOptions = { deepParse: true };
+      const data = await sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln', parseOptions);
+      const result = data.projects;
+
+      for(let i=0; i < result.length; i++) {
+        if(result[i].name !== 'SolutionItems' && result[i].name !== 'nuget') {
+          assert.property(result[i], 'references');
+          assert.property(result[i], 'codeFiles');
+          assert.property(result[i], 'packages');
+        }
+      }
+    });
+  });
+
+  
+  describe('#parseSolution sync/async parity', async () => {
+    const syncData = sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+    const asyncData = await sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+
+    const testCases = {
+      sync: syncData,
+      'async': asyncData
+    };
+
+    Object.keys(testCases).forEach(key => {
+      const solutionData = testCases[key];
+
+      describe(`parsing basic properties as '${key}'`, () => {
+        it('should have property "fileFormatVersion"', () => {
           assert.exists(solutionData.fileFormatVersion);
           assert.isString(solutionData.fileFormatVersion);
         });
-      });
 
-      it('should parse property "fileFormatVersion" correctly', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        return promise.then(solutionData => {
+        it('should parse property "fileFormatVersion" correctly', () => {
           assert.equal(solutionData.fileFormatVersion, '12.00');
         });
-      });
-    });
 
-    describe('#parseSolution().visualStudioVersion', () => {
-      it('should have property "visualStudioVersion"', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        return promise.then(solutionData => {
+        it('should have property "visualStudioVersion"', () => {
           assert.exists(solutionData.visualStudioVersion);
           assert.isString(solutionData.visualStudioVersion);
         });
-      });
 
-      it('should parse property "visualStudioVersion" correctly', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        return promise.then(solutionData => {
+        it('should parse property "visualStudioVersion" correctly', () => {
           assert.equal(solutionData.visualStudioVersion, '15.0.27004.2009');
         });
-      });
-    });
 
-    describe('#parseSolution().minimumVisualStudioVersion', () => {
-      it('should have property "minimumVisualStudioVersion"', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        return promise.then(solutionData => {
+        it('should have property "minimumVisualStudioVersion"', () => {
           assert.exists(solutionData.minimumVisualStudioVersion);
           assert.isString(solutionData.minimumVisualStudioVersion);
         });
-      });
 
-      it('should parse property "minimumVisualStudioVersion" correctly', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        return promise.then(solutionData => {
+        it('should parse property "minimumVisualStudioVersion" correctly', () => {
           assert.equal(solutionData.minimumVisualStudioVersion, '10.0.40219.1');
         });
       });
-    });
 
-    describe('#parseSolution().projects', () => {
-      it('should have property "projects"', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        return promise.then(solutionData => {
+      describe(`parsing projects as '${key}'`, () => {
+        it('should have property "projects"', () => {
           assert.exists(solutionData.projects);
           assert.isArray(solutionData.projects);
         });
-      });
 
-      it('should have expected length', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+        it('should have expected length', () => {
+          const projects = solutionData.projects;
 
-        return promise.then(solutionData => {
-          const result = solutionData.projects;
-          assert.equal(result.length, 6);
+          assert.equal(projects.length, 6);
 
-          for(let i=0; i < result.length; i++) {
-            assert.isObject(result[i]);
+          for(let i=0; i < projects.length; i++) {
+            assert.isObject(projects[i]);
           }
         });
-      });
 
-      it('should be array of correct shape', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+        it('should be array of correct shape', () => {
+          const projects = solutionData.projects;
 
-        return promise.then(solutionData => {
-          const result = solutionData.projects;
-          for(let i=0; i < result.length; i++) {
-            assert.isObject(result[i]);
+          for(let i=0; i < projects.length; i++) {
+            assert.isObject(projects[i]);
 
-            assert.property(result[i], 'id');
-            assert.property(result[i], 'name');
-            assert.property(result[i], 'relativePath');
-            assert.property(result[i], 'projectTypeId');
+            assert.property(projects[i], 'id');
+            assert.property(projects[i], 'name');
+            assert.property(projects[i], 'relativePath');
+            assert.property(projects[i], 'projectTypeId');
           }
         });
-      });
 
-      it('should parse supported props as expected', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
+        it('should parse supported props as expected', () => {
+          const projects = solutionData.projects;
 
-        return promise.then(solutionData => {
-          const result = solutionData.projects;
-          for(let i=0; i < result.length; i++) {
-            assert.isString(result[i].id);
-            assert.isString(result[i].name);
-            assert.isString(result[i].relativePath);
-            assert.isString(result[i].projectTypeId);
+          for(let i=0; i < projects.length; i++) {
+            assert.isString(projects[i].id);
+            assert.isString(projects[i].name);
+            assert.isString(projects[i].relativePath);
+            assert.isString(projects[i].projectTypeId);
           }
         });
-      });
 
-      it('should parse sample lib correctly', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        return promise.then(solutionData => {
-          const sampleProject = solutionData.projects[1];
+        it('should parse sample lib correctly', () => {
+          const projects = solutionData.projects;
+          const sampleProject = projects[1];
           const expectedPath = path.join('TestNUnit3', 'TestNUnit3.csproj');
 
           assert.equal(sampleProject.id, '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF');
@@ -317,53 +202,17 @@ describe('sln', () => {
           assert.equal(sampleProject.relativePath, expectedPath);
           assert.equal(sampleProject.projectTypeId, 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC');
         });
-      });
 
-      it('should shallow parse by default', () => {
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        return promise.then(solutionData => {
-          const result = solutionData.projects;
-          for(let i=0; i < result.length; i++) {
-            assert.notProperty(result[i], 'references');
-            assert.notProperty(result[i], 'codeFiles');
-            assert.notProperty(result[i], 'packages');
-          }
-        });
-      });
-
-      it('should shallow parse when request no deep parse', () => {
-        const parseOptions = { deepParse: false };
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln');
-
-        return promise.then(solutionData => {
-          const result = solutionData.projects;
-
-          for(let i=0; i < result.length; i++) {
-            assert.notProperty(result[i], 'references');
-            assert.notProperty(result[i], 'codeFiles');
-            assert.notProperty(result[i], 'packages');
-          }
-        });
-      });
-
-      it('should deep parse when requested', () => {
-        const parseOptions = { deepParse: true };
-        const promise = sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln', parseOptions);
-
-        return promise.then(solutionData => {
-          const result = solutionData.projects;
-
-          for(let i=0; i < result.length; i++) {
-            if(result[i].name !== 'SolutionItems' && result[i].name !== 'nuget') {
-              assert.property(result[i], 'references', 'project[' + i + '] is missing references');
-              assert.property(result[i], 'codeFiles', 'project[' + i + '] is missing codeFiles');
-              assert.property(result[i], 'packages', 'project[' + i + '] is missing packages');
-            }
+        it('should shallow parse by default', () => {
+          const projects = solutionData.projects;
+          
+          for(let i=0; i < projects.length; i++) {
+            assert.notProperty(projects[i], 'references');
+            assert.notProperty(projects[i], 'codeFiles');
+            assert.notProperty(projects[i], 'packages');
           }
         });
       });
     });
-
   });
 });

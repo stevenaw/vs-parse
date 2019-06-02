@@ -46,9 +46,10 @@ const parseSolution = (filePath, options) => {
       const returnValue = parseSolutionInternal(contents);
 
       if(providedOptions.deepParse) {
+        const slnDir = helpers.getFileDirectory(filePath, options);
+
         const projectPromises = returnValue.projects.map(project => {
           if(project && project.relativePath) {
-            const slnDir = path.dirname(filePath);
             const projectLocation = path.join(slnDir, project.relativePath);
 
             return helpers.fileExists(projectLocation)
@@ -81,12 +82,13 @@ const parseSolutionSync = (filePath, options) => {
   const contents = helpers.getFileContentsOrFailSync(filePath);
   const returnValue = parseSolutionInternal(contents);
 
-  if(providedOptions.deepParse) {    
+  if(providedOptions.deepParse) {
+    const slnDir = helpers.getFileDirectory(filePath, options);
+
     for(let i = 0; i < returnValue.projects.length; i++) {
       const project = returnValue.projects[i];
 
       if(project && project.relativePath) {
-        const slnDir = path.dirname(filePath);
         const projectLocation = path.join(slnDir, project.relativePath);
 
         if(helpers.fileExistsSync(projectLocation)) {

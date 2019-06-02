@@ -286,3 +286,8 @@ An `options` object can be passed to a parsing function to customize its behavio
 `deepParse` - Specifying `true` will also read and parse all dependencies. Defaults to `false`.
 
 Example: A solution is dependent on its projects, while a project is dependent on its packages.
+
+#### Directory Root
+`dirRoot` - The root directory under which the solution or project lives. Defaults to `undefined`.
+
+Required when doing a deep parse of a solution or project from file contents or a buffer.

@@ -28,7 +28,6 @@ describe('sln', () => {
     Object.keys(ioCases).forEach(ioMethod => {
       const solutionData = ioCases[ioMethod];
 
-
       describe(`#parseSolution() input format '${inputFormat}' as '${ioMethod}' `, () => {
         describe('parsing basic properties', () => {
           it('should have property "fileFormatVersion"', () => {
@@ -123,47 +122,105 @@ describe('sln', () => {
     });
   });
 
+  describe('Deep parsing', () => {
+    const filePath = path.join(__dirname, './data/TestConsoleApplication/TestConsoleApplication.sln');
+    const dirRoot = path.dirname(filePath);
+    const buffer = fs.readFileSync(filePath);
+    const text = fs.readFileSync(filePath, { encoding: 'utf-8' });
 
-  describe('#parseSolutionSync()', () => {
-    it('should should throw error if file doesnt exist', () => {
+    const assertIsDeepParsedProject = proj => {
+      assert.property(proj, 'references');
+      assert.property(proj, 'codeFiles');
+      assert.property(proj, 'packages');
+
+      assert.isAtLeast(proj.references.length, 1);
+      assert.isAtLeast(proj.codeFiles.length, 1);
+      assert.isAtLeast(proj.packages.length, 1);
+    };
+
+    describe('sync', () => {
+      it('should deep parse from path when requested', () => {
+        const parseOptions = { deepParse: true };
+        const data = sln.parseSolutionSync(filePath, parseOptions);
+        const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
+
+        assertIsDeepParsedProject(proj);
+      });
+
+      it('should deep parse from buffer when requested', () => {
+        const parseOptions = { deepParse: true, dirRoot };
+        const data = sln.parseSolutionSync(buffer, parseOptions);
+        const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
+
+        assertIsDeepParsedProject(proj);
+      });
+
+      it('should deep parse from contents when requested', () => {
+        const parseOptions = { deepParse: true, dirRoot };
+        const data = sln.parseSolutionSync(text, parseOptions);
+        const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
+
+        assertIsDeepParsedProject(proj);
+      });
+
+      it('should not deep parse from buffer when no dirRoot', () => {
+        const parseOptions = { deepParse: true };
+        assert.throws(() => sln.parseSolutionSync(buffer, parseOptions));
+      });
+
+      it('should not deep parse from contents when no dirRoot', () => {
+        const parseOptions = { deepParse: true };
+        assert.throws(() => sln.parseSolutionSync(text, parseOptions));
+      });
+    });
+
+    describe('async', () => {
+      it('should deep parse from path when requested', async () => {
+        const parseOptions = { deepParse: true };
+        const data = await sln.parseSolution(filePath, parseOptions);
+        const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
+
+        assertIsDeepParsedProject(proj);
+      });
+
+      it('should deep parse from buffer when requested', async () => {
+        const parseOptions = { deepParse: true, dirRoot };
+        const data = await sln.parseSolution(buffer, parseOptions);
+        const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
+
+        assertIsDeepParsedProject(proj);
+      });
+
+      it('should deep parse from contents when requested', async () => {
+        const parseOptions = { deepParse: true, dirRoot };
+        const data = await sln.parseSolution(text, parseOptions);
+        const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
+
+        assertIsDeepParsedProject(proj);
+      });
+
+      it('should not deep parse from buffer when no dirRoot', () => {
+        const parseOptions = { deepParse: true };
+        const promise = sln.parseSolution(buffer, parseOptions);
+        return promise.catch(error => assert.isTrue(true));
+      });
+
+      it('should not deep parse from contents when no dirRoot', () => {
+        const parseOptions = { deepParse: true };
+        const promise = sln.parseSolution(text, parseOptions);
+        return promise.catch(error => assert.isTrue(true));
+      });
+    });
+  })
+
+  describe('Invalid inputs', () => {
+    it('#parseSolutionSync() should should throw error if file doesnt exist', () => {
       assert.throws(() => sln.parseSolutionSync('NOPE'));
     });
 
-    it('should deep parse when requested', async () => {
-      const parseOptions = { deepParse: true };
-      const data = await sln.parseSolutionSync('./test/data/TestConsoleApplication/TestConsoleApplication.sln', parseOptions);
-      const result = data.projects;
-
-      for(let i=0; i < result.length; i++) {
-        if(result[i].name !== 'SolutionItems' && result[i].name !== 'nuget') {
-          assert.property(result[i], 'references');
-          assert.property(result[i], 'codeFiles');
-          assert.property(result[i], 'packages');
-        }
-      }
-    });
-  });
-
-
-  describe('#parseSolution()', () => {
-    it('should should throw error if file doesnt exist', () => {
+    it('#parseSolution() should should throw error if file doesnt exist', () => {
       const promise = sln.parseSolution('NOPE');
-      
       return promise.catch(error => assert.isTrue(true));
-    });
-
-    it('should deep parse when requested', async () => {
-      const parseOptions = { deepParse: true };
-      const data = await sln.parseSolution('./test/data/TestConsoleApplication/TestConsoleApplication.sln', parseOptions);
-      const result = data.projects;
-
-      for(let i=0; i < result.length; i++) {
-        if(result[i].name !== 'SolutionItems' && result[i].name !== 'nuget') {
-          assert.property(result[i], 'references');
-          assert.property(result[i], 'codeFiles');
-          assert.property(result[i], 'packages');
-        }
-      }
     });
   });
 });

@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.2.0](https://github.com/stevenaw/vs-parse/compare/v1.1.0...v1.2.0) (2019-06-26)
+- Added option `dirRoot` to allow manual specification of solution/project when parsing from buffer
+
 ## [1.1.0](https://github.com/stevenaw/vs-parse/compare/v1.0.3...v1.1.0) (2019-06-01)
 - Added `originalString` property on version object
 - Override `toString()` on version object to return `version` property

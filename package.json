@@ -1,6 +1,6 @@
 {
   "name": "vs-parse",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A parser for Visual Studio solutions and projects",
   "repository": "stevenaw/vs-parse",
   "main": "index.js",

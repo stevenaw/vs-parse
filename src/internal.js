@@ -12,6 +12,9 @@ const defaultOptions = {
   encoding: 'utf-8'
 }
 
+const fileExistsSync = (filePath) => fs.pathExistsSync(filePath);
+const fileExists = (filePath) => fs.pathExists(filePath);
+
 const getFileDirectory = (filePath, options) => {
   const dir = (isVsFileContents(filePath) || isBuffer(filePath))
                   ? options.dirRoot
@@ -49,7 +52,12 @@ const getFileContentsOrFail = (file, options) => {
 
     return fs.readFile(file, myOptions).then(
       result => resolve(result),
-      err => reject(err)
+      err => {
+        if (err.code === 'ENOENT')
+          reject(new Error('File not found: ' + file));
+        else
+          reject(err);
+      }
     );
   });
 }
@@ -69,16 +77,13 @@ const getFileContentsOrFailSync = (file, options) => {
   try {
     return fs.readFileSync(file, myOptions);
   } catch (e) {
-    if (typeof file === 'string' && !fileExists.sync(file)) {
+    if (typeof file === 'string' && !fileExistsSync(file)) {
       throw new Error('File not found: ' + file);
     } else {
       throw e;
     }
   }
 }
-
-const fileExistsSync = (filePath) => fs.pathExistsSync(filePath);
-const fileExists = (filePath) => fs.pathExists(filePath);
 
 module.exports = {
   getFileContentsOrFailSync,

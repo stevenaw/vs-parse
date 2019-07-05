@@ -1,15 +1,20 @@
 'use strict';
 
-const assert = require('chai').assert;
+const chai = require('chai');
+const assert = chai.assert;
 const path = require('path');
 const fs = require('fs');
 const internal = require('../src/internal');
+
+chai.use(require('chai-string'));
+
+const fileNotFoundPrefix = 'File not found: ';
 
 describe('internal', () => {
 
   describe('#getFileContentsOrFailSync()', () => {
     it('should throw error if file doesnt exist', () => {
-      assert.throws(() => internal.getFileContentsOrFailSync('NOPE'));
+      assert.throws(() => internal.getFileContentsOrFailSync('NOPE'), fileNotFoundPrefix);
     });
 
 
@@ -26,7 +31,9 @@ describe('internal', () => {
   describe('#getFileContentsOrFail()', () => {
     it('should reject promise if file doesnt exist', () => {
       const promise = internal.getFileContentsOrFail('NOPE');
-      return promise.catch(error => assert.isTrue(true));
+      return promise.catch(error => {
+        assert.startsWith(error.message, fileNotFoundPrefix);
+      });
     });
 
 

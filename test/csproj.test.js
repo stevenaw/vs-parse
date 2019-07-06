@@ -78,76 +78,77 @@ describe('csproj', () => {
     });
   });
 
-  describe('#parseProject sync/async parity', async () => {
+  describe('#parseProject sync/async parity', () => {
     const fileName = './test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj';
     const syncData = csproj.parseProjectSync(fileName);
-    const asyncData = await csproj.parseProject(fileName);
 
-    const testCases = {
-      sync: syncData,
-      'async': asyncData
-    };
+    return csproj.parseProject(fileName).then(asyncData => {
+      const testCases = {
+        sync: syncData,
+        'async': asyncData
+      };
 
-    Object.keys(testCases).forEach(key => {
-      const projectData = testCases[key];
+      Object.keys(testCases).forEach(key => {
+        const projectData = testCases[key];
 
-      describe(`parsing basic properties as '${key}'`, () => {
-        it('should have property "references"', () => {
-          assert.exists(projectData.references);
-          assert.isArray(projectData.references);
-        });
+        describe(`parsing basic properties as '${key}'`, () => {
+          it('should have property "references"', () => {
+            assert.exists(projectData.references);
+            assert.isArray(projectData.references);
+          });
 
-        it('should be array of correct shape', () => {
-          const result = projectData.references;
+          it('should be array of correct shape', () => {
+            const result = projectData.references;
 
-          for(let i=0; i < result.length; i++) {
-            assert.isObject(result[i]);
+            for(let i=0; i < result.length; i++) {
+              assert.isObject(result[i]);
 
-            assert.property(result[i], 'assemblyName');
-            assert.property(result[i], 'version');
-            assert.property(result[i], 'culture');
-            assert.property(result[i], 'processorArchitecture');
-            assert.property(result[i], 'publicKeyToken');
-            assert.property(result[i], 'hintPath');
-          }
-        });
+              assert.property(result[i], 'assemblyName');
+              assert.property(result[i], 'version');
+              assert.property(result[i], 'culture');
+              assert.property(result[i], 'processorArchitecture');
+              assert.property(result[i], 'publicKeyToken');
+              assert.property(result[i], 'hintPath');
+            }
+          });
 
-        it('should parse required props as expected', () => {
-          const result = projectData.references;
+          it('should parse required props as expected', () => {
+            const result = projectData.references;
 
-          for(let i=0; i < result.length; i++) {
-            assert.isString(result[i].assemblyName);
-          }
-        });
+            for(let i=0; i < result.length; i++) {
+              assert.isString(result[i].assemblyName);
+            }
+          });
 
-        it('should parse optional props as expected', () => {
-          const result = projectData.references;
-          const targetReference = result[2];
+          it('should parse optional props as expected', () => {
+            const result = projectData.references;
+            const targetReference = result[2];
 
-          assert.isString(targetReference.version);
-          assert.isString(targetReference.culture);
-          assert.isString(targetReference.processorArchitecture);
-          assert.isString(targetReference.publicKeyToken);
-          assert.isString(targetReference.hintPath);
-        });
+            assert.isString(targetReference.version);
+            assert.isString(targetReference.culture);
+            assert.isString(targetReference.processorArchitecture);
+            assert.isString(targetReference.publicKeyToken);
+            assert.isString(targetReference.hintPath);
+          });
 
-        it('should parse sample lib reference correctly', () => {
-          const targetReference = projectData.references[2];
-          const expectedHintPath = path.join('..', 'packages', 'NUnit.3.7.1', 'lib', 'net45', 'nunit.framework.dll');
+          it('should parse sample lib reference correctly', () => {
+            const targetReference = projectData.references[2];
+            const expectedHintPath = path.join('..', 'packages', 'NUnit.3.7.1', 'lib', 'net45', 'nunit.framework.dll');
 
-          assert.equal(targetReference.assemblyName, 'nunit.framework');
-          assert.equal(targetReference.version, '3.7.1.0');
-          assert.equal(targetReference.culture, 'neutral');
-          assert.equal(targetReference.processorArchitecture, 'MSIL');
-          assert.equal(targetReference.publicKeyToken, '2638cd05610744eb');
-          assert.equal(targetReference.hintPath, expectedHintPath);
-        });
+            assert.equal(targetReference.assemblyName, 'nunit.framework');
+            assert.equal(targetReference.version, '3.7.1.0');
+            assert.equal(targetReference.culture, 'neutral');
+            assert.equal(targetReference.processorArchitecture, 'MSIL');
+            assert.equal(targetReference.publicKeyToken, '2638cd05610744eb');
+            assert.equal(targetReference.hintPath, expectedHintPath);
+          });
 
-        it('should parse sample lib code file correctly', () => {
-          const target = projectData.codeFiles[1];
-          const expectedFilePath = path.join('Properties', 'AssemblyInfo.cs');
+          it('should parse sample lib code file correctly', () => {
+            const target = projectData.codeFiles[1];
+            const expectedFilePath = path.join('Properties', 'AssemblyInfo.cs');
 
-          assert.equal(target.fileName, expectedFilePath);
+            assert.equal(target.fileName, expectedFilePath);
+          });
         });
       });
     });
@@ -167,56 +168,58 @@ describe('csproj', () => {
     });
   });
 
-  describe('#parsePackages sync/async parity', async () => {
+  describe('#parsePackages sync/async parity', () => {
     const fileName = './test/data/TestConsoleApplication/TestNUnit3/packages.config';
     const syncData = csproj.parsePackagesSync(fileName);
-    const asyncData = await csproj.parsePackages(fileName);
 
-    const testCases = {
-      sync: syncData,
-      'async': asyncData
-    };
+    return csproj.parsePackages(fileName).then(asyncData => {
 
-    Object.keys(testCases).forEach(key => {
-      const packageData = testCases[key];
+      const testCases = {
+        sync: syncData,
+        'async': asyncData
+      };
 
-      describe(`parsing basic properties as '${key}'`, () => {
-        it('should return array', () => {
-          assert.isArray(packageData);
-        });
+      Object.keys(testCases).forEach(key => {
+        const packageData = testCases[key];
 
-        it('should have expected length', () => {
-          assert.equal(packageData.length, 10);
+        describe(`parsing basic properties as '${key}'`, () => {
+          it('should return array', () => {
+            assert.isArray(packageData);
+          });
 
-          for(let i=0; i < packageData.length; i++) {
-            assert.isObject(packageData[i]);
-          }
-        });
+          it('should have expected length', () => {
+            assert.equal(packageData.length, 10);
 
-        it('should be array of correct shape', () => {
-          for(let i=0; i < packageData.length; i++) {
-            assert.isObject(packageData[i]);
+            for(let i=0; i < packageData.length; i++) {
+              assert.isObject(packageData[i]);
+            }
+          });
 
-            assert.property(packageData[i], 'name');
-            assert.property(packageData[i], 'version');
-            assert.property(packageData[i], 'targetFramework');
-          }
-        });
+          it('should be array of correct shape', () => {
+            for(let i=0; i < packageData.length; i++) {
+              assert.isObject(packageData[i]);
 
-        it('should parse supported props as expected', () => {
-          for(let i=0; i < packageData.length; i++) {
-            assert.isString(packageData[i].name);
-            assert.isString(packageData[i].version);
-            assert.isString(packageData[i].targetFramework);
-          }
-        });
+              assert.property(packageData[i], 'name');
+              assert.property(packageData[i], 'version');
+              assert.property(packageData[i], 'targetFramework');
+            }
+          });
 
-        it('should parse sample lib correctly', () => {
-          const nunitConsoleRunner = packageData[4];
+          it('should parse supported props as expected', () => {
+            for(let i=0; i < packageData.length; i++) {
+              assert.isString(packageData[i].name);
+              assert.isString(packageData[i].version);
+              assert.isString(packageData[i].targetFramework);
+            }
+          });
 
-          assert.equal(nunitConsoleRunner.name, 'NUnit.ConsoleRunner');
-          assert.equal(nunitConsoleRunner.version, '3.7.0');
-          assert.equal(nunitConsoleRunner.targetFramework, 'net452');
+          it('should parse sample lib correctly', () => {
+            const nunitConsoleRunner = packageData[4];
+
+            assert.equal(nunitConsoleRunner.name, 'NUnit.ConsoleRunner');
+            assert.equal(nunitConsoleRunner.version, '3.7.0');
+            assert.equal(nunitConsoleRunner.targetFramework, 'net452');
+          });
         });
       });
     });

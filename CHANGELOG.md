@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.2.0](https://github.com/stevenaw/vs-parse/compare/v1.2.0...v1.2.1) (2019-07-05)
+- Improve error message when a file can't be found
+
 ## [1.2.0](https://github.com/stevenaw/vs-parse/compare/v1.1.0...v1.2.0) (2019-06-26)
 - Added option `dirRoot` to allow manual specification of solution/project when parsing from buffer
 

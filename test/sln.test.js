@@ -38,10 +38,9 @@ const generateTestCases = () => {
   });
 };
 
-describe('sln', async () => {
-  const testCases = await generateTestCases();
-  
+describe('sln', () => {
   describe('parseSolution() basic return format', () => {
+    return generateTestCases().then(testCases => {
       testCases.forEach(testCase => {
         const { inputFormat, ioMethod, solutionData } = testCase;
         describe(`#parseSolution() input format '${inputFormat}' as '${ioMethod}' `, () => {
@@ -135,7 +134,8 @@ describe('sln', async () => {
             });
           });
         });
-    })
+      });
+    });
   });
 
   describe('Deep parsing', () => {
@@ -191,28 +191,31 @@ describe('sln', async () => {
     });
 
     describe('async', () => {
-      it('should deep parse from path when requested', async () => {
+      it('should deep parse from path when requested', () => {
         const parseOptions = { deepParse: true };
-        const data = await sln.parseSolution(filePath, parseOptions);
-        const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
+        return sln.parseSolution(filePath, parseOptions).then(data => {
+          const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
 
-        assertIsDeepParsedProject(proj);
+          assertIsDeepParsedProject(proj);
+        });
       });
 
-      it('should deep parse from buffer when requested', async () => {
+      it('should deep parse from buffer when requested', () => {
         const parseOptions = { deepParse: true, dirRoot };
-        const data = await sln.parseSolution(buffer, parseOptions);
-        const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
+        return sln.parseSolution(buffer, parseOptions).then(data => {
+          const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
 
-        assertIsDeepParsedProject(proj);
+          assertIsDeepParsedProject(proj);
+        });
       });
 
-      it('should deep parse from contents when requested', async () => {
+      it('should deep parse from contents when requested', () => {
         const parseOptions = { deepParse: true, dirRoot };
-        const data = await sln.parseSolution(text, parseOptions);
-        const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
+        return sln.parseSolution(text, parseOptions).then(data => {
+          const proj = data.projects.find(proj => proj.name === 'TestNUnit3');
 
-        assertIsDeepParsedProject(proj);
+          assertIsDeepParsedProject(proj);
+        });
       });
 
       it('should not deep parse from buffer when no dirRoot', () => {

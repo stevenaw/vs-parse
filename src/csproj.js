@@ -12,6 +12,14 @@ const parseCodeFile = (node) => {
   };
 };
 
+const parsePackageReference = (detail) => {
+  return {
+    name: detail.attributes.Include,
+    version: detail.attributes.Version,
+    targetFramework: detail.attributes.targetFramework,
+  };
+};
+
 const parseAssemblyReference = (node) => {
   const parts = node.attributes.Include.split(/\, /g);
   const hintPathNode = node.children && node.children[0];
@@ -76,6 +84,18 @@ const parsePackagesInternal = (contents) => {
   }, []);
 };
 
+const mergePackages = (projPackages, packages) => {
+  let result = [];
+  if (projPackages) {
+    result.push(...projPackages);
+  }
+  if (packages) {
+    result.push(...packages);
+  }
+
+  return result;
+};
+
 const parseProject = (filePath, options) => {
   const providedOptions = options || {};
   return helpers.getFileContentsOrFail(filePath)
@@ -95,7 +115,7 @@ const parseProject = (filePath, options) => {
             } else {
               return parsePackages(packagesLocation)
                 .then(packages => {
-                  result.packages = packages || [];
+                  result.packages = mergePackages(result.packages, packages);
                   return result;
                 });
             }
@@ -114,7 +134,7 @@ const parseProjectSync = (filePath, options) => {
     const packagesLocation = path.join(projDir, 'packages.config');
 
     const packages = helpers.fileExistsSync(packagesLocation) && parsePackagesSync(packagesLocation);
-    result.packages = packages || [];
+    result.packages = mergePackages(result.packages, packages);
   }
 
   return result;
@@ -139,6 +159,9 @@ const parseProjectInternal = (contents) => {
         } else if (children[0].name === 'Compile') {
           const refs = children.map(parseCodeFile);
           projectData.codeFiles = projectData.codeFiles.concat(refs);
+        } else if (children[0].name === 'PackageReference') {
+          const refs = children.map(parsePackageReference);
+          projectData.packages = projectData.packages.concat(refs);
         }
       }
     }

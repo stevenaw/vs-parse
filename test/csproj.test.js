@@ -66,6 +66,28 @@ describe('csproj', () => {
       });
     });
 
+    it('should parse packages from csproj when provided', () => {
+      const contents = fs.readFileSync('./test/data/TestConsoleApplication/TestNUnit4/TestNUnit4.csproj', { encoding: 'utf-8' });
+      const promise = csproj.parseProject(contents);
+
+      return promise.then(result => {
+        assert.exists(result.packages);
+        assert.isArray(result.packages);
+        assert.isAbove(result.packages.length, 0);
+      });
+    });
+
+    it('should return empty packages array from csproj when missing', () => {
+      const contents = fs.readFileSync('./test/data/TestConsoleApplication/TestNUnit2/TestNUnit2.csproj', { encoding: 'utf-8' });
+      const promise = csproj.parseProject(contents);
+
+      return promise.then(result => {
+        assert.exists(result.packages);
+        assert.isArray(result.packages);
+        assert.strictEqual(result.packages.length, 0);
+      });
+    });
+
     it('should read as file contents when buffer provided', () => {
       const contents = fs.readFileSync('./test/data/TestConsoleApplication/TestNUnit2/TestNUnit2.csproj');
       const promise = csproj.parseProject(contents);

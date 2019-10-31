@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApplication", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNUnit3", "TestNUnit3\TestNUnit3.csproj", "{1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNUnit4", "TestNUnit4\TestNUnit4.csproj", "{24E88346-B703-4D69-856A-E50D235A6D44}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNUnit2", "TestNUnit2\TestNUnit2.csproj", "{4F789118-2C18-4F6F-9F0A-81741E2262F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleLib", "TestConsoleLib\TestConsoleLib.csproj", "{F0387ABC-0DF5-4090-A146-B0780AC71400}"

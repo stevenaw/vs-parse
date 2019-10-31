@@ -81,7 +81,7 @@ describe('sln', () => {
 
             it('should have expected length', () => {
               const projects = solutionData.projects;
-              assert.equal(projects.length, 6);
+              assert.equal(projects.length, 7);
 
               for(let i=0; i < projects.length; i++) {
                 assert.isObject(projects[i]);
@@ -162,7 +162,6 @@ describe('sln', () => {
 
         assertIsDeepParsedProject(proj);
       });
-
       it('should deep parse from buffer when requested', () => {
         const parseOptions = { deepParse: true, dirRoot };
         const data = sln.parseSolutionSync(buffer, parseOptions);
@@ -188,6 +187,17 @@ describe('sln', () => {
         const parseOptions = { deepParse: true };
         assert.throws(() => sln.parseSolutionSync(text, parseOptions));
       });
+
+      it('should merge package data on deep parse', () => {
+        const parseOptions = { deepParse: true };
+        const data = sln.parseSolutionSync(filePath, parseOptions);
+        const proj = data.projects.find(proj => proj.name === 'TestNUnit4');
+
+        assertIsDeepParsedProject(proj);
+        assert.equal(proj.packages.length, 11);
+        assert.equal(proj.packages.filter(p => p.name === "NUnit.Console.Test").length > 0, true);
+      });
+
     });
 
     describe('async', () => {

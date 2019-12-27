@@ -266,3 +266,4 @@ coverage
 test/data/**/packages
 test/data/**/bin
 test/data/**/obj
+package-lock.json

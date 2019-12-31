@@ -1,6 +1,6 @@
 # Change Log
 
-## [2.0.0](https://github.com/stevenaw/vs-parse/compare/v1.2.2...v2.0.0) (TBD)
+## [2.0.0](https://github.com/stevenaw/vs-parse/compare/v1.2.2...v2.0.0) (2019-12-31)
 - Drop Node 6 support
 - Update test utilities
 - Remove Travis CI 

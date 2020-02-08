@@ -6,31 +6,31 @@ strategy:
   matrix:
     node_8_linux:
       node_version: 8.x
-      imageName: 'ubuntu-16.04'
+      imageName: 'ubuntu-18.04'
     node_8_mac:
       node_version: 8.x
-      imageName: 'macos-10.13'
+      imageName: 'macos-10.15'
     node_8_win:
       node_version: 8.x
-      imageName: 'vs2017-win2016'
+      imageName: 'windows-2019'
     node_10_linux:
       node_version: 10.x
-      imageName: 'ubuntu-16.04'
+      imageName: 'ubuntu-18.04'
     node_10_mac:
       node_version: 10.x
-      imageName: 'macos-10.13'
+      imageName: 'macos-10.15'
     node_10_win:
       node_version: 10.x
-      imageName: 'vs2017-win2016'
+      imageName: 'windows-2019'
     node_12_linux:
       node_version: 12.x
-      imageName: 'ubuntu-16.04'
+      imageName: 'ubuntu-18.04'
     node_12_mac:
       node_version: 12.x
-      imageName: 'macos-10.13'
+      imageName: 'macos-10.15'
     node_12_win:
       node_version: 12.x
-      imageName: 'vs2017-win2016'
+      imageName: 'windows-2019'
 
 pool:
   vmImage: $(imageName)

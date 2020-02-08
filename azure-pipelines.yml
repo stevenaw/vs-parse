@@ -27,7 +27,7 @@ strategy:
       imageName: 'ubuntu-18.04'
     node_12_mac:
       node_version: 12.x
-      imageName: 'macos-10.1%'
+      imageName: 'macos-10.15'
     node_12_win:
       node_version: 12.x
       imageName: 'windows-2019'

@@ -3,3 +3,4 @@ test/
 .github
 .gitattributes
 *.yml
+samples

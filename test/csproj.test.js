@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('chai').assert;
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const csproj = require('../src/csproj');
 
@@ -41,13 +41,13 @@ describe('csproj', () => {
   describe('#parseProject()', () => {
     it('should should reject promise if file doesnt exist', () => {
       const promise = csproj.parseProject('NOPE');
-      
+
       return promise.catch(error => assert.isTrue(true));
     });
 
     it('should read as path when path provided', () => {
       const promise = csproj.parseProject('./test/data/TestConsoleApplication/TestNUnit2/TestNUnit2.csproj');
-      
+
       return promise.then(result => {
         assert.exists(result.references);
         assert.isArray(result.references);
@@ -80,6 +80,7 @@ describe('csproj', () => {
 
   describe('#parseProject sync/async parity', () => {
     const fileName = './test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj';
+    const expectedData = fs.readJsonSync('./test/expected/TestNUnit3.json');
     const syncData = csproj.parseProjectSync(fileName);
 
     return csproj.parseProject(fileName).then(asyncData => {
@@ -91,7 +92,7 @@ describe('csproj', () => {
       Object.keys(testCases).forEach(key => {
         const projectData = testCases[key];
 
-        describe(`parsing basic properties as '${key}'`, () => {
+        describe(`parsing basic reference properties as '${key}'`, () => {
           it('should have property "references"', () => {
             assert.exists(projectData.references);
             assert.isArray(projectData.references);
@@ -142,12 +143,17 @@ describe('csproj', () => {
             assert.equal(targetReference.publicKeyToken, '2638cd05610744eb');
             assert.equal(targetReference.hintPath, expectedHintPath);
           });
+        });
 
-          it('should parse sample lib code file correctly', () => {
-            const target = projectData.codeFiles[1];
-            const expectedFilePath = path.join('Properties', 'AssemblyInfo.cs');
+        describe(`parsing basic file properties as '${key}'`, () => {
+          it('should parse expected number of code files', () => {
+            assert.equal(projectData.codeFiles.length, expectedData.codeFiles.length);
+          });
 
-            assert.equal(target.fileName, expectedFilePath);
+          it('should parse code files correctly', () => {
+            for(let i=0; i < projectData.codeFiles; i++) {
+              assert.equal(projectData.codeFiles[i].fileName, expectedData.codeFiles[i].fileName);
+            }
           });
         });
       });
@@ -160,7 +166,7 @@ describe('csproj', () => {
       assert.throws(() => csproj.parseProjectSync('NOPE'));
     });
   });
-  
+
   describe('#parsePackages()', () => {
     it('should should reject promise if file doesnt exist', () => {
       const promise = csproj.parsePackages('NOPE');

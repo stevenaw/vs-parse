@@ -52,6 +52,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyModule\ModuleClass.cs" />
+    <Compile Include="MyModule\MySubmodule\SubmoduleClass.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -174,7 +174,10 @@ describe('csproj', () => {
 
             it('should parse code files correctly', () => {
               for(let i=0; i < projectData.codeFiles.length; i++) {
-                assert.strictEqual(projectData.codeFiles[i].fileName, expectedData.codeFiles[i].fileName);
+                const actualValue = projectData.codeFiles[i].fileName;
+                const expectedValue = helpers.normalizePath(expectedData.codeFiles[i].fileName);
+
+                assert.strictEqual(actualValue, expectedValue);
               }
             });
           });

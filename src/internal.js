@@ -19,7 +19,7 @@ const getFileDirectory = (filePath, options) => {
   const dir = (isVsFileContents(filePath) || isBuffer(filePath))
                   ? options.dirRoot
                   : path.dirname(filePath);
-                  
+
   if (!dir) {
     throw new Error('Could not determine root directory. Please specify \'dirRoot\' if doing a deep parse');
   }

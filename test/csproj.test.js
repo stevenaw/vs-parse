@@ -128,11 +128,11 @@ describe('csproj', () => {
             it('should parse optional props as expected', () => {
               const targetReference = projectData.references.find(ref => ref.assemblyName === 'System');
 
-              assert.isUndefined(targetReference.version);
-              assert.isUndefined(targetReference.culture);
-              assert.isUndefined(targetReference.processorArchitecture);
-              assert.isUndefined(targetReference.publicKeyToken);
-              assert.isUndefined(targetReference.hintPath);
+              assert.isNull(targetReference.version);
+              assert.isNull(targetReference.culture);
+              assert.isNull(targetReference.processorArchitecture);
+              assert.isNull(targetReference.publicKeyToken);
+              assert.isNull(targetReference.hintPath);
             });
 
             describe('comparing parsed data to json', () => {
@@ -153,7 +153,7 @@ describe('csproj', () => {
                 for(let i=0; i < projectData.references.length; i++) {
                   for(let j=0; j < propNames.length; j++) {
                     const propName = propNames[j];
-                    assert.equal(projectData.references[i][propName], expectedData.references[i][propName]);
+                    assert.strictEqual(projectData.references[i][propName], expectedData.references[i][propName]);
                   }
                 }
               });
@@ -167,7 +167,7 @@ describe('csproj', () => {
 
             it('should parse code files correctly', () => {
               for(let i=0; i < projectData.codeFiles.length; i++) {
-                assert.equal(projectData.codeFiles[i].fileName, expectedData.codeFiles[i].fileName);
+                assert.strictEqual(projectData.codeFiles[i].fileName, expectedData.codeFiles[i].fileName);
               }
             });
           });
@@ -248,7 +248,7 @@ describe('csproj', () => {
                 for(let i=0; i < packageData.length; i++) {
                   for(let j=0; j < propNames.length; j++) {
                     const propName = propNames[j];
-                    assert.equal(packageData[i][propName], expectedData.packages[i][propName]);
+                    assert.strictEqual(packageData[i][propName], expectedData.packages[i][propName]);
                   }
                 }
               });

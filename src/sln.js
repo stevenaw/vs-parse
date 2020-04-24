@@ -109,9 +109,9 @@ const parseSolutionInternal = (contents) => {
   const lines = contents.replace(/(\r\n|\r)/g, '\n').split('\n');
 
   const returnValue = {
-    fileFormatVersion: undefined,
-    visualStudioVersion: undefined,
-    minimumVisualStudioVersion: undefined,
+    fileFormatVersion: null,
+    visualStudioVersion: null,
+    minimumVisualStudioVersion: null,
     projects: []
   };
 
@@ -130,7 +130,7 @@ const parseSolutionInternal = (contents) => {
     if(visualStudioVersion) {
       returnValue.visualStudioVersion = visualStudioVersion;
     }
-    
+
     const minimumVisualStudioVersion = parseMinimumVisualStudioVersion(lines[i]);
     if(minimumVisualStudioVersion) {
       returnValue.minimumVisualStudioVersion = minimumVisualStudioVersion;

@@ -143,6 +143,30 @@ describe('csproj', () => {
             assert.equal(targetReference.publicKeyToken, '2638cd05610744eb');
             assert.equal(targetReference.hintPath, expectedHintPath);
           });
+
+          describe('comparing parsed data to json', () => {
+            it('should parse expected number of assembly references', () => {
+              assert.equal(projectData.references.length, expectedData.references.length);
+            });
+
+            it('should match expected property values when parsed', () => {
+              const propNames = [
+                'assemblyName',
+                'version',
+                'culture',
+                'processorArchitecture',
+                'publicKeyToken',
+                'hintPath'
+              ];
+
+              for(let i=0; i < projectData.references.length; i++) {
+                for(let j=0; j < propNames.length; j++) {
+                  const propName = propNames[j];
+                  assert.equal(projectData.references[i][propName], expectedData.references[i][propName]);
+                }
+              }
+            });
+          });
         });
 
         describe(`parsing basic file properties as '${key}'`, () => {
@@ -151,7 +175,7 @@ describe('csproj', () => {
           });
 
           it('should parse code files correctly', () => {
-            for(let i=0; i < projectData.codeFiles; i++) {
+            for(let i=0; i < projectData.codeFiles.length; i++) {
               assert.equal(projectData.codeFiles[i].fileName, expectedData.codeFiles[i].fileName);
             }
           });
@@ -176,6 +200,7 @@ describe('csproj', () => {
 
   describe('#parsePackages sync/async parity', () => {
     const fileName = './test/data/TestConsoleApplication/TestNUnit3/packages.config';
+    const expectedData = fs.readJsonSync('./test/expected/TestNUnit3.json');
     const syncData = csproj.parsePackagesSync(fileName);
 
     return csproj.parsePackages(fileName).then(asyncData => {
@@ -188,7 +213,7 @@ describe('csproj', () => {
       Object.keys(testCases).forEach(key => {
         const packageData = testCases[key];
 
-        describe(`parsing basic properties as '${key}'`, () => {
+        describe(`parsing basic package properties as '${key}'`, () => {
           it('should return array', () => {
             assert.isArray(packageData);
           });
@@ -225,6 +250,27 @@ describe('csproj', () => {
             assert.equal(nunitConsoleRunner.name, 'NUnit.ConsoleRunner');
             assert.equal(nunitConsoleRunner.version, '3.7.0');
             assert.equal(nunitConsoleRunner.targetFramework, 'net452');
+          });
+
+          describe('comparing parsed data to json', () => {
+            it('should parse expected number of packages', () => {
+              assert.equal(packageData.length, packageData.length);
+            });
+
+            it('should match expected property values when parsed', () => {
+              const propNames = [
+                'name',
+                'version',
+                'targetFramework'
+              ];
+
+              for(let i=0; i < packageData.length; i++) {
+                for(let j=0; j < propNames.length; j++) {
+                  const propName = propNames[j];
+                  assert.equal(packageData[i][propName], expectedData.packages[i][propName]);
+                }
+              }
+            });
           });
         });
       });

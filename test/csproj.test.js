@@ -79,109 +79,103 @@ describe('csproj', () => {
   });
 
   describe('#parseProject sync/async parity', () => {
-    const fileName = './test/data/TestConsoleApplication/TestNUnit3/TestNUnit3.csproj';
-    const expectedData = fs.readJsonSync('./test/expected/TestNUnit3.json');
-    const syncData = csproj.parseProjectSync(fileName);
+    const testProjects = [ 'TestNUnit3' ];
 
-    return csproj.parseProject(fileName).then(asyncData => {
-      const testCases = {
-        sync: syncData,
-        'async': asyncData
-      };
+    const projectPromises = testProjects.map(projectName => {
+      const fileName = `./test/data/TestConsoleApplication/${projectName}/${projectName}.csproj`;
+      const expectedData = fs.readJsonSync(`./test/expected/${projectName}.json`);
 
-      Object.keys(testCases).forEach(key => {
-        const projectData = testCases[key];
+      const syncData = csproj.parseProjectSync(fileName);
 
-        describe(`parsing basic reference properties as '${key}'`, () => {
-          it('should have property "references"', () => {
-            assert.exists(projectData.references);
-            assert.isArray(projectData.references);
-          });
+      return csproj.parseProject(fileName).then(asyncData => {
+        const testCases = {
+          sync: syncData,
+          'async': asyncData
+        };
 
-          it('should be array of correct shape', () => {
-            const result = projectData.references;
+        Object.keys(testCases).forEach(key => {
+          const projectData = testCases[key];
 
-            for(let i=0; i < result.length; i++) {
-              assert.isObject(result[i]);
-
-              assert.property(result[i], 'assemblyName');
-              assert.property(result[i], 'version');
-              assert.property(result[i], 'culture');
-              assert.property(result[i], 'processorArchitecture');
-              assert.property(result[i], 'publicKeyToken');
-              assert.property(result[i], 'hintPath');
-            }
-          });
-
-          it('should parse required props as expected', () => {
-            const result = projectData.references;
-
-            for(let i=0; i < result.length; i++) {
-              assert.isString(result[i].assemblyName);
-            }
-          });
-
-          it('should parse optional props as expected', () => {
-            const result = projectData.references;
-            const targetReference = result[2];
-
-            assert.isString(targetReference.version);
-            assert.isString(targetReference.culture);
-            assert.isString(targetReference.processorArchitecture);
-            assert.isString(targetReference.publicKeyToken);
-            assert.isString(targetReference.hintPath);
-          });
-
-          it('should parse sample lib reference correctly', () => {
-            const targetReference = projectData.references[2];
-            const expectedHintPath = path.join('..', 'packages', 'NUnit.3.7.1', 'lib', 'net45', 'nunit.framework.dll');
-
-            assert.equal(targetReference.assemblyName, 'nunit.framework');
-            assert.equal(targetReference.version, '3.7.1.0');
-            assert.equal(targetReference.culture, 'neutral');
-            assert.equal(targetReference.processorArchitecture, 'MSIL');
-            assert.equal(targetReference.publicKeyToken, '2638cd05610744eb');
-            assert.equal(targetReference.hintPath, expectedHintPath);
-          });
-
-          describe('comparing parsed data to json', () => {
-            it('should parse expected number of assembly references', () => {
-              assert.equal(projectData.references.length, expectedData.references.length);
+          describe(`parsing basic reference properties as '${key}'`, () => {
+            it('should have property "references"', () => {
+              assert.exists(projectData.references);
+              assert.isArray(projectData.references);
             });
 
-            it('should match expected property values when parsed', () => {
-              const propNames = [
-                'assemblyName',
-                'version',
-                'culture',
-                'processorArchitecture',
-                'publicKeyToken',
-                'hintPath'
-              ];
+            it('should be array of correct shape', () => {
+              const result = projectData.references;
 
-              for(let i=0; i < projectData.references.length; i++) {
-                for(let j=0; j < propNames.length; j++) {
-                  const propName = propNames[j];
-                  assert.equal(projectData.references[i][propName], expectedData.references[i][propName]);
+              for(let i=0; i < result.length; i++) {
+                assert.isObject(result[i]);
+
+                assert.property(result[i], 'assemblyName');
+                assert.property(result[i], 'version');
+                assert.property(result[i], 'culture');
+                assert.property(result[i], 'processorArchitecture');
+                assert.property(result[i], 'publicKeyToken');
+                assert.property(result[i], 'hintPath');
+              }
+            });
+
+            it('should parse required props as expected', () => {
+              const result = projectData.references;
+
+              for(let i=0; i < result.length; i++) {
+                assert.isString(result[i].assemblyName);
+              }
+            });
+
+            it('should parse optional props as expected', () => {
+              const targetReference = projectData.references.find(ref => ref.assemblyName === 'System');
+
+              assert.isUndefined(targetReference.version);
+              assert.isUndefined(targetReference.culture);
+              assert.isUndefined(targetReference.processorArchitecture);
+              assert.isUndefined(targetReference.publicKeyToken);
+              assert.isUndefined(targetReference.hintPath);
+            });
+
+            describe('comparing parsed data to json', () => {
+              it('should parse expected number of assembly references', () => {
+                assert.equal(projectData.references.length, expectedData.references.length);
+              });
+
+              it('should match expected property values when parsed', () => {
+                const propNames = [
+                  'assemblyName',
+                  'version',
+                  'culture',
+                  'processorArchitecture',
+                  'publicKeyToken',
+                  'hintPath'
+                ];
+
+                for(let i=0; i < projectData.references.length; i++) {
+                  for(let j=0; j < propNames.length; j++) {
+                    const propName = propNames[j];
+                    assert.equal(projectData.references[i][propName], expectedData.references[i][propName]);
+                  }
                 }
+              });
+            });
+          });
+
+          describe(`parsing basic file properties as '${key}'`, () => {
+            it('should parse expected number of code files', () => {
+              assert.equal(projectData.codeFiles.length, expectedData.codeFiles.length);
+            });
+
+            it('should parse code files correctly', () => {
+              for(let i=0; i < projectData.codeFiles.length; i++) {
+                assert.equal(projectData.codeFiles[i].fileName, expectedData.codeFiles[i].fileName);
               }
             });
           });
         });
-
-        describe(`parsing basic file properties as '${key}'`, () => {
-          it('should parse expected number of code files', () => {
-            assert.equal(projectData.codeFiles.length, expectedData.codeFiles.length);
-          });
-
-          it('should parse code files correctly', () => {
-            for(let i=0; i < projectData.codeFiles.length; i++) {
-              assert.equal(projectData.codeFiles[i].fileName, expectedData.codeFiles[i].fileName);
-            }
-          });
-        });
       });
     });
+
+    return Promise.all(projectPromises);
   });
 
 
@@ -199,81 +193,71 @@ describe('csproj', () => {
   });
 
   describe('#parsePackages sync/async parity', () => {
-    const fileName = './test/data/TestConsoleApplication/TestNUnit3/packages.config';
-    const expectedData = fs.readJsonSync('./test/expected/TestNUnit3.json');
-    const syncData = csproj.parsePackagesSync(fileName);
+    const testProjects = [ 'TestNUnit3' ];
 
-    return csproj.parsePackages(fileName).then(asyncData => {
+    const projectPromises = testProjects.map(projectName => {
+      const fileName = `./test/data/TestConsoleApplication/${projectName}/packages.config`;
+      const expectedData = fs.readJsonSync(`./test/expected/${projectName}.json`);
+      const syncData = csproj.parsePackagesSync(fileName);
 
-      const testCases = {
-        sync: syncData,
-        'async': asyncData
-      };
+      return csproj.parsePackages(fileName).then(asyncData => {
 
-      Object.keys(testCases).forEach(key => {
-        const packageData = testCases[key];
+        const testCases = {
+          sync: syncData,
+          'async': asyncData
+        };
 
-        describe(`parsing basic package properties as '${key}'`, () => {
-          it('should return array', () => {
-            assert.isArray(packageData);
-          });
+        Object.keys(testCases).forEach(key => {
+          const packageData = testCases[key];
 
-          it('should have expected length', () => {
-            assert.equal(packageData.length, 10);
-
-            for(let i=0; i < packageData.length; i++) {
-              assert.isObject(packageData[i]);
-            }
-          });
-
-          it('should be array of correct shape', () => {
-            for(let i=0; i < packageData.length; i++) {
-              assert.isObject(packageData[i]);
-
-              assert.property(packageData[i], 'name');
-              assert.property(packageData[i], 'version');
-              assert.property(packageData[i], 'targetFramework');
-            }
-          });
-
-          it('should parse supported props as expected', () => {
-            for(let i=0; i < packageData.length; i++) {
-              assert.isString(packageData[i].name);
-              assert.isString(packageData[i].version);
-              assert.isString(packageData[i].targetFramework);
-            }
-          });
-
-          it('should parse sample lib correctly', () => {
-            const nunitConsoleRunner = packageData[4];
-
-            assert.equal(nunitConsoleRunner.name, 'NUnit.ConsoleRunner');
-            assert.equal(nunitConsoleRunner.version, '3.7.0');
-            assert.equal(nunitConsoleRunner.targetFramework, 'net452');
-          });
-
-          describe('comparing parsed data to json', () => {
-            it('should parse expected number of packages', () => {
-              assert.equal(packageData.length, packageData.length);
+          describe(`parsing basic package properties as '${key}'`, () => {
+            it('should return array', () => {
+              assert.isArray(packageData);
             });
 
-            it('should match expected property values when parsed', () => {
-              const propNames = [
-                'name',
-                'version',
-                'targetFramework'
-              ];
-
+            it('should be array of correct shape', () => {
               for(let i=0; i < packageData.length; i++) {
-                for(let j=0; j < propNames.length; j++) {
-                  const propName = propNames[j];
-                  assert.equal(packageData[i][propName], expectedData.packages[i][propName]);
-                }
+                assert.isObject(packageData[i]);
+
+                assert.property(packageData[i], 'name');
+                assert.property(packageData[i], 'version');
+                assert.property(packageData[i], 'targetFramework');
               }
+            });
+
+            it('should parse supported props as expected', () => {
+              for(let i=0; i < packageData.length; i++) {
+                assert.isString(packageData[i].name);
+                assert.isString(packageData[i].version);
+                assert.isString(packageData[i].targetFramework);
+              }
+            });
+
+            describe('comparing parsed data to json', () => {
+              it('should parse expected number of packages', () => {
+                assert.equal(packageData.length, packageData.length);
+              });
+
+              it('should match expected property values when parsed', () => {
+                const propNames = [
+                  'name',
+                  'version',
+                  'targetFramework'
+                ];
+
+                for(let i=0; i < packageData.length; i++) {
+                  for(let j=0; j < propNames.length; j++) {
+                    const propName = propNames[j];
+                    assert.equal(packageData[i][propName], expectedData.packages[i][propName]);
+                  }
+                }
+              });
             });
           });
         });
       });
     });
+
+    return Promise.all(projectPromises);
   });
 });

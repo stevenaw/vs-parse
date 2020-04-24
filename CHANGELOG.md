@@ -1,9 +1,12 @@
 # Change Log
 
+## [2.0.1](https://github.com/stevenaw/vs-parse/compare/v2.0.0...v2.0.1) (TBD)
+- Add CI testing for Node 14
+
 ## [2.0.0](https://github.com/stevenaw/vs-parse/compare/v1.2.2...v2.0.0) (2019-12-31)
 - Drop Node 6 support
 - Update test utilities
-- Remove Travis CI 
+- Remove Travis CI
 
 ## [1.2.2](https://github.com/stevenaw/vs-parse/compare/v1.2.1...v1.2.2) (2019-08-18)
 - Update test modules to mitigate lodash vulnerability

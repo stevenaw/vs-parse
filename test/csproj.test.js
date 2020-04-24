@@ -4,6 +4,7 @@ const assert = require('chai').assert;
 const fs = require('fs-extra');
 const path = require('path');
 const csproj = require('../src/csproj');
+const helpers = require('../src/internal');
 
 describe('csproj', () => {
   describe('#parseProjectSync()', () => {
@@ -153,7 +154,13 @@ describe('csproj', () => {
                 for(let i=0; i < projectData.references.length; i++) {
                   for(let j=0; j < propNames.length; j++) {
                     const propName = propNames[j];
-                    assert.strictEqual(projectData.references[i][propName], expectedData.references[i][propName]);
+                    const actualValue = projectData.references[i][propName];
+                    let expectedValue = expectedData.references[i][propName];
+
+                    if (propName === 'hintPath')
+                      expectedValue = helpers.normalizePath(expectedValue);
+
+                    assert.strictEqual(actualValue, expectedValue);
                   }
                 }
               });

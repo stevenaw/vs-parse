@@ -1,6 +1,6 @@
 # Change Log
 
-## [3.0.0](https://github.com/stevenaw/vs-parse/compare/v2.0.0...v3.0.0) (TBD)
+## [3.0.0](https://github.com/stevenaw/vs-parse/compare/v2.0.0...v3.0.0) (2020-04-24)
 - BREAKING: The following optional properties of a parsed project now default to `null` instead of `undefined`:
   - version
   - culture

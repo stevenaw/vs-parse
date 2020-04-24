@@ -18,11 +18,11 @@ const parseAssemblyReference = (node) => {
 
   const result = {
     assemblyName: parts[0],
-    version: undefined,
-    culture: undefined,
-    processorArchitecture: undefined,
-    publicKeyToken: undefined,
-    hintPath: undefined,
+    version: null,
+    culture: null,
+    processorArchitecture: null,
+    publicKeyToken: null,
+    hintPath: null,
   };
 
   for(let i = 1; i < parts.length; i++) {

@@ -1,10 +1,20 @@
 # Change Log
 
-## [2.0.1](https://github.com/stevenaw/vs-parse/compare/v2.0.0...v2.0.1) (TBD)
+## [3.0.0](https://github.com/stevenaw/vs-parse/compare/v2.0.0...v3.0.0) (TBD)
+- BREAKING: The following optional properties of a parsed project now default to `null` instead of `undefined`:
+  - version
+  - culture
+  - processorArchitecture
+  - publicKeyToken
+  - hintPath
+- BREAKING: The following optional properties of a parsed solution now default to `null` instead of `undefined`:
+  - fileFormatVersion
+  - visualStudioVersion
+  - minimumVisualStudioVersion
 - Add CI testing for Node 14
 
 ## [2.0.0](https://github.com/stevenaw/vs-parse/compare/v1.2.2...v2.0.0) (2019-12-31)
-- Drop Node 6 support
+- BREAKING: Drop Node 6 support
 - Update test utilities
 - Remove Travis CI
 

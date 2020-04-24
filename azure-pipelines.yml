@@ -31,13 +31,13 @@ strategy:
     node_12_win:
       node_version: 12.x
       imageName: 'windows-2019'
-    node_12_linux:
+    node_14_linux:
       node_version: 14.x
       imageName: 'ubuntu-18.04'
-    node_12_mac:
+    node_14_mac:
       node_version: 14.x
       imageName: 'macos-10.15'
-    node_12_win:
+    node_14_win:
       node_version: 14.x
       imageName: 'windows-2019'
 

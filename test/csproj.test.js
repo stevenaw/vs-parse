@@ -157,7 +157,7 @@ describe('csproj', () => {
                     const actualValue = projectData.references[i][propName];
                     let expectedValue = expectedData.references[i][propName];
 
-                    if (propName === 'hintPath')
+                    if (expectedValue && propName === 'hintPath')
                       expectedValue = helpers.normalizePath(expectedValue);
 
                     assert.strictEqual(actualValue, expectedValue);

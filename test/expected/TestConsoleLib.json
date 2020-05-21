@@ -1,0 +1,83 @@
+{
+  "references": [
+    {
+      "assemblyName": "System",
+      "version": null,
+      "culture": null,
+      "processorArchitecture": null,
+      "publicKeyToken": null,
+      "hintPath": null
+    },
+    {
+      "assemblyName": "System.Core",
+      "version": null,
+      "culture": null,
+      "processorArchitecture": null,
+      "publicKeyToken": null,
+      "hintPath": null
+    },
+    {
+      "assemblyName": "System.Xml.Linq",
+      "version": null,
+      "culture": null,
+      "processorArchitecture": null,
+      "publicKeyToken": null,
+      "hintPath": null
+    },
+    {
+      "assemblyName": "System.Data.DataSetExtensions",
+      "version": null,
+      "culture": null,
+      "processorArchitecture": null,
+      "publicKeyToken": null,
+      "hintPath": null
+    },
+    {
+      "assemblyName": "Microsoft.CSharp",
+      "version": null,
+      "culture": null,
+      "processorArchitecture": null,
+      "publicKeyToken": null,
+      "hintPath": null
+    },
+    {
+      "assemblyName": "System.Data",
+      "version": null,
+      "culture": null,
+      "processorArchitecture": null,
+      "publicKeyToken": null,
+      "hintPath": null
+    },
+    {
+      "assemblyName": "System.Net.Http",
+      "version": null,
+      "culture": null,
+      "processorArchitecture": null,
+      "publicKeyToken": null,
+      "hintPath": null
+    },
+    {
+      "assemblyName": "System.Xml",
+      "version": null,
+      "culture": null,
+      "processorArchitecture": null,
+      "publicKeyToken": null,
+      "hintPath": null
+    }
+  ],
+  "codeFiles": [
+    {
+      "fileName": "Class1.cs"
+    },
+    {
+      "fileName": "MyModule\\ModuleClass.cs"
+    },
+    {
+      "fileName": "MyModule\\MySubmodule\\SubmoduleClass.cs"
+    },
+    {
+      "fileName": "Properties\\AssemblyInfo.cs"
+    }
+  ],
+  "packages": []
+}

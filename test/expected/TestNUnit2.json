@@ -1,0 +1,59 @@
+{
+  "references": [
+    {
+      "assemblyName": "Microsoft.VisualStudio.TestPlatform.TestFramework",
+      "version": "14.0.0.0",
+      "culture": "neutral",
+      "processorArchitecture": "MSIL",
+      "publicKeyToken": "b03f5f7f11d50a3a",
+      "hintPath": "..\\packages\\MSTest.TestFramework.1.1.11\\lib\\net45\\Microsoft.VisualStudio.TestPlatform.TestFramework.dll"
+    },
+    {
+      "assemblyName": "Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions",
+      "version": "14.0.0.0",
+      "culture": "neutral",
+      "processorArchitecture": "MSIL",
+      "publicKeyToken": "b03f5f7f11d50a3a",
+      "hintPath": "..\\packages\\MSTest.TestFramework.1.1.11\\lib\\net45\\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll"
+    },
+    {
+      "assemblyName": "nunit.framework",
+      "version": "2.6.4.14350",
+      "culture": "neutral",
+      "processorArchitecture": "MSIL",
+      "publicKeyToken": "96d09a1eb7f44a77",
+      "hintPath": "..\\packages\\NUnit.2.6.4\\lib\\nunit.framework.dll"
+    },
+    {
+      "assemblyName": "System",
+      "version": null,
+      "culture": null,
+      "processorArchitecture": null,
+      "publicKeyToken": null,
+      "hintPath": null
+    },
+    {
+      "assemblyName": "System.Core",
+      "version": null,
+      "culture": null,
+      "processorArchitecture": null,
+      "publicKeyToken": null,
+      "hintPath": null
+    }
+  ],
+  "codeFiles": [
+    {
+      "fileName": "MyModule\\ModuleClass.cs"
+    },
+    {
+      "fileName": "MyModule\\MySubmodule\\SubmoduleClass.cs"
+    },
+    {
+      "fileName": "UnitTest1.cs"
+    },
+    {
+      "fileName": "Properties\\AssemblyInfo.cs"
+    }
+  ],
+  "packages": []
+}

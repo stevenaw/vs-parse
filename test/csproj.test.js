@@ -80,13 +80,12 @@ describe('csproj', () => {
   });
 
   describe('#parseProject sync/async parity', () => {
-    const testProjects = [ 'TestNUnit3' ];
+    const testProjects = [ 'TestNUnit3', 'TestNUnit2', 'TestConsoleApplication', 'TestConsoleLib' ];
 
     const projectPromises = testProjects.map(projectName => {
       const fileName = `./test/data/TestConsoleApplication/${projectName}/${projectName}.csproj`;
-      const expectedData = fs.readJsonSync(`./test/expected/${projectName}.json`);
-
       const syncData = csproj.parseProjectSync(fileName);
+      const expectedData = fs.readJsonSync(`./test/expected/${projectName}.json`);
 
       return csproj.parseProject(fileName).then(asyncData => {
         const testCases = {

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8121EE41-FD06-45A5-87C3-4BFA1438F1D6}</ProjectGuid>
+    <ProjectGuid>{2C66DC77-D54A-48CF-AA1F-E24C38E62132}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestNUnit4</RootNamespace>
@@ -52,6 +52,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyModule\ModuleClass.cs" />
+    <Compile Include="MyModule\MySubmodule\SubmoduleClass.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestNUnit3.MyModule.MySubmodule
+namespace TestNUnit4.MyModule
 {
-    class Submodule
-    {
-    }
+  class ModuleClass
+  {
+  }
 }

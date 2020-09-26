@@ -60,7 +60,7 @@ describe('sln', () => {
             });
 
             it('should parse property "visualStudioVersion" correctly', () => {
-              assert.equal(solutionData.visualStudioVersion, '15.0.27004.2009');
+              assert.equal(solutionData.visualStudioVersion, '16.0.30503.244');
             });
 
             it('should have property "minimumVisualStudioVersion"', () => {
@@ -81,7 +81,7 @@ describe('sln', () => {
 
             it('should have expected length', () => {
               const projects = solutionData.projects;
-              assert.equal(projects.length, 7);
+              assert.equal(projects.length, 8);
 
               for(let i=0; i < projects.length; i++) {
                 assert.isObject(projects[i]);

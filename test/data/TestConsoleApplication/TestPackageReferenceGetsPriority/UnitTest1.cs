@@ -1,7 +1,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TestPackageReference
+namespace TestPackageReferenceGetsPriority
 {
     [TestClass]
     public class UnitTest1

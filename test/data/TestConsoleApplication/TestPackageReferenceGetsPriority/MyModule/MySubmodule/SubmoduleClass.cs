@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestPackageReference.MyModule.MySubmodule
+namespace TestPackageReferenceGetsPriority.MyModule.MySubmodule
 {
   class SubmoduleClass
   {

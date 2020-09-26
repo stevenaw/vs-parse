@@ -88,10 +88,33 @@ describe('csproj', () => {
         assert.isAbove(result.references.length, 0);
       });
     });
+
+    it('should prioritize PackageReference over packages.config', () => {
+      const contents = fs.readFileSync('./test/data/TestConsoleApplication/TestPackageReferenceGetsPriority/TestPackageReferenceGetsPriority.csproj');
+      const promise = csproj.parseProject(contents);
+
+      return promise.then(result => {
+        assert.exists(result.packages);
+        assert.isArray(result.packages);
+
+        const nunit = result.packages.find(p => p.name === 'NUnit');
+        assert.strictEqual(nunit.version, '3.7.1');
+
+        const nodaTime = result.packages.find(p => p.name === 'NodaTime');
+        assert.notExists(nodaTime);
+      });
+    });
   });
 
   describe('#parseProject sync/async parity', () => {
-    const testProjects = [ 'TestNUnit3', 'TestNUnit2', 'TestConsoleApplication', 'TestConsoleLib', 'TestPackageReference' ];
+    const testProjects = [
+      'TestNUnit3',
+      'TestNUnit2',
+      'TestConsoleApplication',
+      'TestConsoleLib',
+      'TestPackageReference',
+      'TestPackageReferenceGetsPriority'
+    ];
 
     const projectPromises = testProjects.map(projectName => {
       const fileName = `./test/data/TestConsoleApplication/${projectName}/${projectName}.csproj`;
@@ -213,7 +236,9 @@ describe('csproj', () => {
   });
 
   describe('#parsePackages sync/async parity', () => {
-    const testProjects = [ 'TestNUnit3' ];
+    const testProjects = [
+      'TestNUnit3'
+    ];
 
     const projectPromises = testProjects.map(projectName => {
       const fileName = `./test/data/TestConsoleApplication/${projectName}/packages.config`;

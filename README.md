@@ -189,7 +189,7 @@ console.log(projectData);
 */
 ```
 
-A full parse of a project and all its dependencies can be done by passing the [`deepParse` option](#deep-parse). This will force the parser to enumerate and parse all packages.
+A full parse of a project and all its dependencies can be done by passing the [`deepParse` option](#deep-parse). This will force the parser to enumerate and parse all packages. Project files using the `<PackageReference>` format do not require this option to return dependent packages. Dependency parsing will defer to the dependencies listed in `packages.config` over `<PackageReference>` if a `packages.config` file is present.
 
 Example:
 ```js
@@ -229,7 +229,7 @@ console.log(projectData);
 
 ### parsePackages
 ### parsePackagesSync
-Parses a nuget package file.
+Parses a nuget 'packages.config' file.
 
 ```js
 const parsePackages = (file, options = {}) => Promise.resolve({})

@@ -1,0 +1,110 @@
+{
+  "references":[
+    {
+      "assemblyName":"Microsoft.VisualStudio.TestPlatform.TestFramework",
+      "version":"14.0.0.0",
+      "culture":"neutral",
+      "processorArchitecture":"MSIL",
+      "publicKeyToken":"b03f5f7f11d50a3a",
+      "hintPath":"..\\packages\\MSTest.TestFramework.1.1.11\\lib\\net45\\Microsoft.VisualStudio.TestPlatform.TestFramework.dll"
+    },
+    {
+      "assemblyName":"Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions",
+      "version":"14.0.0.0",
+      "culture":"neutral",
+      "processorArchitecture":"MSIL",
+      "publicKeyToken":"b03f5f7f11d50a3a",
+      "hintPath":"..\\packages\\MSTest.TestFramework.1.1.11\\lib\\net45\\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll"
+    },
+    {
+      "assemblyName":"nunit.framework",
+      "version":"3.7.1.0",
+      "culture":"neutral",
+      "processorArchitecture":"MSIL",
+      "publicKeyToken":"2638cd05610744eb",
+      "hintPath":"..\\packages\\NUnit.3.7.1\\lib\\net45\\nunit.framework.dll"
+    },
+    {
+      "assemblyName":"System",
+      "version":null,
+      "culture":null,
+      "processorArchitecture":null,
+      "publicKeyToken":null,
+      "hintPath":null
+    },
+    {
+      "assemblyName":"System.Core",
+      "version":null,
+      "culture":null,
+      "processorArchitecture":null,
+      "publicKeyToken":null,
+      "hintPath":null
+    }
+  ],
+  "codeFiles":[
+    {
+      "fileName":"MyModule\\ModuleClass.cs"
+    },
+    {
+      "fileName":"MyModule\\MySubmodule\\SubmoduleClass.cs"
+    },
+    {
+      "fileName":"UnitTest1.cs"
+    },
+    {
+      "fileName":"Properties\\AssemblyInfo.cs"
+    }
+  ],
+  "packages":[
+    {
+      "name": "MSTest.TestAdapter",
+      "version": "1.1.11",
+      "targetFramework": "net452"
+    },
+    {
+      "name": "MSTest.TestFramework",
+      "version": "1.1.11",
+      "targetFramework": "net452"
+    },
+    {
+      "name": "NUnit",
+      "version": "3.7.1",
+      "targetFramework": "net452"
+    },
+    {
+      "name": "NUnit.Console",
+      "version": "3.7.0",
+      "targetFramework": "net452"
+    },
+    {
+      "name": "NUnit.ConsoleRunner",
+      "version": "3.7.0",
+      "targetFramework": "net452"
+    },
+    {
+      "name": "NUnit.Extension.NUnitProjectLoader",
+      "version": "3.5.0",
+      "targetFramework": "net452"
+    },
+    {
+      "name": "NUnit.Extension.NUnitV2Driver",
+      "version": "3.6.0",
+      "targetFramework": "net452"
+    },
+    {
+      "name": "NUnit.Extension.NUnitV2ResultWriter",
+      "version": "3.5.0",
+      "targetFramework": "net452"
+    },
+    {
+      "name": "NUnit.Extension.TeamCityEventListener",
+      "version": "1.0.2",
+      "targetFramework": "net452"
+    },
+    {
+      "name": "NUnit.Extension.VSProjectLoader",
+      "version": "3.5.0",
+      "targetFramework": "net452"
+    }
+  ]
+}

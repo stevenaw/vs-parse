@@ -7,7 +7,6 @@ const path = require('path');
 const upath = require('upath');
 const StringDecoder = require('string_decoder').StringDecoder;
 
-const newLine = /\r|\n/g;
 const defaultOptions = {
   encoding: 'utf-8'
 }
@@ -31,7 +30,7 @@ const normalizePath = (pathStr) => os.platform() == 'win32' ? pathStr : upath.no
 
 const isVsFileContents = (file) => {
   // Naive way to determine if string is a path or vs proj/sln file
-  return (typeof file === 'string' && newLine.test(file));
+  return (typeof file === 'string' && /\r|\n/.test(file));
 };
 
 const getFileContentsOrFail = (file, options) => {

@@ -115,7 +115,7 @@ const parseProject = (filePath, options) => {
             } else {
               return parsePackages(packagesLocation)
                 .then(packages => {
-                  result.packages = mergePackages(result.packages, packages);
+                  result.packages = packages || [];
                   return result;
                 });
             }
@@ -134,7 +134,7 @@ const parseProjectSync = (filePath, options) => {
     const packagesLocation = path.join(projDir, 'packages.config');
 
     const packages = helpers.fileExistsSync(packagesLocation) && parsePackagesSync(packagesLocation);
-    result.packages = mergePackages(result.packages, packages);
+    result.packages = packages || [];
   }
 
   return result;

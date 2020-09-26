@@ -1,5 +1,8 @@
 # Change Log
 
+## [3.1.0](https://github.com/stevenaw/vs-parse/compare/v3.0.0...v3.1.0) (TBD)
+- #6 - Add parsing of `<PackageReference>` from csproj files
+
 ## [3.0.0](https://github.com/stevenaw/vs-parse/compare/v2.0.0...v3.0.0) (2020-04-24)
 - BREAKING: The following optional properties of a parsed project now default to `null` instead of `undefined`:
   - version

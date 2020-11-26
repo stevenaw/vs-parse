@@ -6,7 +6,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "nyc mocha --timeout=3000",
+    "test": "mocha --timeout=3000",
+    "coverage": "nyc --reporter cobertura --reporter text npm run test",
     "demo": "node samples/dependencyParsing",
     "preversion": "npm test",
     "postversion": "git push && git push --tags"
@@ -35,6 +36,7 @@
     "chai": "^4.2.0",
     "chai-string": "^1.5.0",
     "mocha": "^7.2.0",
+    "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.1"
   }
 }

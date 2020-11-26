@@ -49,10 +49,14 @@ steps:
   inputs:
     versionSpec: $(node_version)
   displayName: 'Install Node.js'
-
 - script: |
     node --version
     npm --version
     npm install
-    npm test
+    npm run coverage
   displayName: 'npm install and build'
+- task: PublishCodeCoverageResults@1
+  inputs: 
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'

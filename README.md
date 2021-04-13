@@ -63,7 +63,7 @@ console.log(solutionData);
       {
         id: '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF',
         name: 'TestNUnit3',
-        path: 'TestNUnit3\\TestNUnit3.csproj',
+        relativePath: 'TestNUnit3\\TestNUnit3.csproj',
         projectTypeId: 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC'
       }
     ]
@@ -90,7 +90,7 @@ console.log(solutionData);
       {
         id: '1580E0CD-6DAA-4328-92F6-2E0B0F0AB7AF',
         name: 'TestNUnit3',
-        path: 'TestNUnit3\\TestNUnit3.csproj',
+        relativePath: 'TestNUnit3\\TestNUnit3.csproj',
         projectTypeId: 'FAE04EC0-301F-11D3-BF4B-00C04F79EFBC',
         codeFiles: [
           {

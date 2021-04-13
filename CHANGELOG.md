@@ -1,6 +1,6 @@
 # Change Log
 
-## [3.1.1](https://github.com/stevenaw/vs-parse/compare/v3.1.0...v3.1.1) (2020-04-13)
+## [3.1.1](https://github.com/stevenaw/vs-parse/compare/v3.1.0...v3.1.1) (2021-04-13)
 - [#18](https://github.com/stevenaw/vs-parse/issues/18): - Readme incorrect - Project.path is incorrect s/b relativePath
 
 ## [3.1.0](https://github.com/stevenaw/vs-parse/compare/v3.0.0...v3.1.0) (2020-10-30)

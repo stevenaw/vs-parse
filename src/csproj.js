@@ -156,7 +156,7 @@ const parseProjectInternal = (contents) => {
         if (children[0].name === 'Reference') {
           const refs = children.map(parseAssemblyReference);
           projectData.references = projectData.references.concat(refs);
-        } else if (children[0].name === 'Compile') {
+        } else if (children[0].name === 'Compile' && children[0].attributes.Include) {
           const refs = children.map(parseCodeFile);
           projectData.codeFiles = projectData.codeFiles.concat(refs);
         } else if (children[0].name === 'PackageReference') {

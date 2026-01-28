@@ -1,5 +1,5 @@
 # vs-parse
-[![Build Status](https://github.com/stevenaw/vs-parse/actions/workflows/ci.yml/badge.svg?branch=main)]
+[![build status](https://img.shields.io/github/actions/workflow/status/stevenaw/vs-parse/ci.yml?branch=main)](https://github.com/stevenaw/vs-parse/actions/workflows/ci.yml?query=branch%3Amain)
 
 Node-based parser of Visual Studio projects/solutions.
 

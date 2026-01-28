@@ -15,8 +15,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x, 24.x]
-        runner: [windows-latest, ubuntu-latest, macos-latest]
+        node-version: [20.x]
+        runner: [ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v4

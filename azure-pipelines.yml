@@ -1,45 +1,9 @@
 # Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 strategy:
   matrix:
-    node_8_linux:
-      node_version: 8.x
+    node_24_linux:
+      node_version: 24.x
       imageName: 'ubuntu-latest'
-    node_8_mac:
-      node_version: 8.x
-      imageName: 'macos-latest'
-    node_8_win:
-      node_version: 8.x
-      imageName: 'windows-latest'
-    node_10_linux:
-      node_version: 10.x
-      imageName: 'ubuntu-latest'
-    node_10_mac:
-      node_version: 10.x
-      imageName: 'macos-latest'
-    node_10_win:
-      node_version: 10.x
-      imageName: 'windows-latest'
-    node_12_linux:
-      node_version: 12.x
-      imageName: 'ubuntu-latest'
-    node_12_mac:
-      node_version: 12.x
-      imageName: 'macos-latest'
-    node_12_win:
-      node_version: 12.x
-      imageName: 'windows-latest'
-    node_14_linux:
-      node_version: 14.x
-      imageName: 'ubuntu-latest'
-    node_14_mac:
-      node_version: 14.x
-      imageName: 'macos-latest'
-    node_14_win:
-      node_version: 14.x
-      imageName: 'windows-latest'
 
 pool:
   vmImage: $(imageName)

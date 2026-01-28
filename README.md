@@ -1,5 +1,5 @@
 # vs-parse
-[![Azure Pipelines Build Status](https://sweerdenburg.visualstudio.com/vs-parse/_apis/build/status/stevenaw.vs-parse)](https://sweerdenburg.visualstudio.com/vs-parse/_build/latest?definitionId=1)
+![Build Status](https://github.com/stevenaw/vs-parse/actions/workflows/ci.yml/badge.svg?branch=main)
 
 Node-based parser of Visual Studio projects/solutions.
 

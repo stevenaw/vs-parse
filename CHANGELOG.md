@@ -1,8 +1,9 @@
 # Change Log
 
-## [vNext](https://github.com/stevenaw/vs-parse/compare/v3.1.2...main) (TBD)
+## [v3.1.2](https://github.com/stevenaw/vs-parse/compare/v3.1.2...v3.1.3) (2026-02-01)
 - Update mocha to latest
 - Add Github Actions for CI
+- Update Github Actions to target current LTS (Node 20+) 
 
 ## [3.1.2](https://github.com/stevenaw/vs-parse/compare/v3.1.1...v3.1.2) (2022-04-08)
 - [#20](https://github.com/stevenaw/vs-parse/issues/20): - Error parsing Compile Remove
